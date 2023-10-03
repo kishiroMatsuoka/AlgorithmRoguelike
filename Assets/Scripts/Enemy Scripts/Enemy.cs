@@ -1,0 +1,207 @@
+using System.Collections;
+using System.Collections.Generic;
+using EnemySystem;
+using UnityEngine;
+
+//interactions script
+public class Enemy : MonoBehaviour
+{
+    [SerializeField] Enemies enemydata;
+    //GameObject _enemyprefab;
+    public int _enemylvl, _enemyhp, _enemyspeed, _enemydmg, _enemydef;
+    int maxhp, dmg_effect = 0, def_effect = 0;
+    public bool IsDead = false;
+    Skills last_used = null;
+    Combat_controller cc;
+    
+    void Start()
+    {
+        cc = FindObjectOfType<Combat_controller>();
+        //_enemylvl = Random.Range(1, GameObject.Find("EventSystem").GetComponent<SceneControl>().MaxLvlZone+1);
+        _enemyhp = enemydata.Enemy_Health;
+        _enemydmg = enemydata.Enemy_Damage;
+        _enemydef = enemydata.Enemy_Defense;
+        ScaleStats();
+        maxhp = _enemyhp;
+    }
+    void ScaleStats()
+    {
+        float scale = _enemylvl * 0.1f;
+        if(_enemylvl > 1)
+        {
+            _enemyhp = (int)(_enemyhp * scale);
+            _enemydmg = (int)(_enemydmg* scale);
+            _enemydef = (int)(_enemydef * scale);
+        }
+    }
+    float ClassRes()
+    {
+        float res = 0f;
+        switch (enemydata.Enemy_Class)
+        {
+            case EnemyClass.Mage:
+                res = 25.0f;
+                break;
+            case EnemyClass.Boss:
+                res = 10.0f;
+                break;
+            case EnemyClass.Elemental:
+                res = 99.0f;
+                break;
+        }
+        return res;
+    }
+    public void ChangeHp(int effect, bool magic)
+    {
+        print("Enemy Receive dmg");
+        if(magic)
+        {
+            float res = ClassRes();
+            if(res > 0)
+            {
+                float reduction = effect - (effect * res / 100);
+                effect = (int)System.Math.Round(reduction);
+            }
+            _enemyhp -= effect;
+        }
+        else
+        {
+            print("Dmg calculated: " + (effect - (_enemydef + def_effect)));
+            _enemyhp -= (effect-(_enemydef+def_effect));
+        }
+        //check if dead
+        if(_enemyhp <= 0)
+        {
+            IsDead = true;
+        }
+    }
+    void Heal(int value)
+    {
+        _enemyhp += value;
+        if(_enemyhp > maxhp){_enemyhp = maxhp;}
+    }
+    int CalculateDmg(Skills s)
+    {
+        int dmg = (int)System.Math.Round((_enemydmg+dmg_effect) * s.skill_multiplier / 100f);
+        return dmg;
+    }
+    public void AttackEffect(int percentage, bool buff)
+    {
+        if(buff)
+        {
+            dmg_effect += (int)System.Math.Round((_enemydmg * percentage / 100f));
+        }
+        else
+        {
+            dmg_effect -= (int)System.Math.Round((_enemydmg * percentage / 100f));
+        }
+    }
+    public void DefEffect(int percentage, bool buff)
+    {
+        if (buff){def_effect += (int)System.Math.Round((_enemydef * percentage / 100f));}
+        else{def_effect -= (int)System.Math.Round((_enemydef * percentage / 100f));}
+    }
+    public void UseSkill(Player_Controller pc)
+    {
+        if (last_used != null)
+        {
+            List<Skills> temp =  enemydata.Enemy_Skills.FindAll(s => s.skill_type == Skills.SkillType.FinalAttack);
+            Skills skill = temp[Random.Range(0, temp.Count)];
+            if (skill.Skill_target == Skills.TargetType.Single)
+            {
+                pc.HpModifier(CalculateDmg(skill), false);
+                dmg_effect = 0;
+            }
+            else
+            {
+                //
+            }
+            last_used = null;
+        }
+        else
+        {
+            Debug.Log("Choosing Skill");
+            int skill_n = Random.Range(0,enemydata.Enemy_Skills.Count);
+            Skills skill = enemydata.Enemy_Skills[skill_n];
+            switch(skill.skill_type)
+            {
+                case Skills.SkillType.Attack:
+                    if(skill.Skill_target == Skills.TargetType.Single)
+                    {
+                        Debug.Log("Skill used: " + skill.Name+ "\nSkill type: " + skill.skill_type);
+                        pc.PartyRecieveDmg(CalculateDmg(skill),false);
+                        dmg_effect = 0;
+                    }
+                    else//AoE
+                    {
+                        pc.PartyRecieveDmg(CalculateDmg(skill), true);
+                    }
+                    break;
+                case Skills.SkillType.Buff:
+                    if (skill.Skill_target == Skills.TargetType.Single)
+                    {
+                        switch (skill.skill_stat)
+                        {
+                            case Skills.StatTarget.Attack:
+                                AttackEffect(skill.skill_multiplier, true);
+                                break;
+                            case Skills.StatTarget.Defense:
+                                DefEffect(skill.skill_multiplier, true);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        //
+                    }
+                    break;
+                case Skills.SkillType.Debuff:
+                    if (skill.Skill_target == Skills.TargetType.Single)
+                    {
+                        Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
+                        switch (skill.skill_stat)
+                        {
+                            case Skills.StatTarget.Attack:
+                                cc.StatModifier(skill.skill_multiplier, false, 0);
+                                break;
+                            case Skills.StatTarget.Defense:
+                                cc.StatModifier(skill.skill_multiplier, false, 1);
+                                break;
+                            case Skills.StatTarget.MaxCost:
+                                cc.StatModifier(skill.skill_multiplier, false, 2);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
+                        switch (skill.skill_stat)
+                        {
+                            case Skills.StatTarget.Attack:
+                                cc.StatModifier(skill.skill_multiplier, false, 0);
+                                break;
+                            case Skills.StatTarget.Defense:
+                                cc.StatModifier(skill.skill_multiplier, false, 1);
+                                break;
+                            case Skills.StatTarget.MaxCost:
+                                cc.StatModifier(skill.skill_multiplier, false, 2);
+                                break;
+                        }
+                    }
+                    break;
+                case Skills.SkillType.PreparationAttack:
+                    Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
+                    last_used = skill;
+                    break;
+                case Skills.SkillType.FinalAttack:
+                    if(last_used == null)
+                    {
+                        Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
+                        UseSkill(pc);
+                    }
+                    break;
+            }
+        }
+    }
+}
+
