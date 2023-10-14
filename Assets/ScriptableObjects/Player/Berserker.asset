@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e796b5e01d3375a4696698173933a67d, type: 3}
+  m_Name: Berserker
+  m_EditorClassIdentifier: 
+  p_class: 3
+  hp: 125
+  def: 10
+  maxcost: 4
+  inventory: {fileID: 11400000, guid: be3f4a40ad14e9f4398860fd2582646e, type: 2}
+  description: "[Clase]\nEspecializada en hacer da\xF1o, es mas probable conseguir
+    Items asociados a da\xF1o fisico de alta raridad\n\n[Stats]\nVida baja, Defensa
+    baja, Costo total promedio.\n\n[Inventario]\nFunciones de da\xF1o a un solo oponente."

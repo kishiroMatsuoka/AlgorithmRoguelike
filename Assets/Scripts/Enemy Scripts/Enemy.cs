@@ -7,13 +7,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] Enemies enemydata;
-    //GameObject _enemyprefab;
-    public int _enemylvl, _enemyhp, _enemyspeed, _enemydmg, _enemydef;
-    int maxhp, dmg_effect = 0, def_effect = 0;
+    [HideInInspector] public int _enemylvl, _enemyhp, _enemyspeed, _enemydmg, _enemydef;
+    public bool Recursion = false;
+    //local calculations
+    Combat_controller cc;
+    int maxhp, dmg_effect = 0, def_effect = 0, BossBonusDmg = 0;
     public bool IsDead = false;
     Skills last_used = null;
-    Combat_controller cc;
-    
     void Start()
     {
         cc = FindObjectOfType<Combat_controller>();
@@ -82,7 +82,12 @@ public class Enemy : MonoBehaviour
     }
     int CalculateDmg(Skills s)
     {
+        
         int dmg = (int)System.Math.Round((_enemydmg+dmg_effect) * s.skill_multiplier / 100f);
+        if (enemydata.Enemy_Class == EnemyClass.Boss)
+        {
+            dmg += BossBonusDmg;
+        }
         return dmg;
     }
     public void AttackEffect(int percentage, bool buff)
@@ -202,6 +207,7 @@ public class Enemy : MonoBehaviour
                     break;
             }
         }
+        if (Recursion) { BossBonusDmg += 2; }
     }
 }
 

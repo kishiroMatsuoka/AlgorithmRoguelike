@@ -6,19 +6,57 @@ public class StoreController : MonoBehaviour
     //storepool add here
     [SerializeField] TextMeshProUGUI health, gold;
     public Transform PanelVenta, PanelInventario, Stack;
-    public GameObject Itemdesc;
+    public GameObject LootPrefab;
     Player_Controller pc;
     private void OnEnable()
     {
         pc = GameObject.Find("Player").GetComponent<Player_Controller>();
         health.text = pc._hp.ToString();
         gold.text = pc.money.ToString();
+        FillStore();
+        SellOptions();
     }
-    public void FillStore()
+    private void Update()
     {
-        foreach(Transform slot in PanelVenta)
+        gold.text = pc.money.ToString();
+    }
+    void SellOptions()
+    {
+        foreach (Transform slot in PanelInventario)
         {
-
+            if (slot.childCount > 0)
+            {
+                Destroy(slot.GetChild(0));
+            }
+        }
+        foreach (Transform slot in PanelInventario)
+        {
+            var i = pc._inventory.GetRandomItem();
+            if (i != null)
+            {
+                var t = Instantiate(LootPrefab, slot);
+                t.GetComponent<ItemStore>().Own = true;
+                t.GetComponent<LootPreview>().itemdata = i;
+                t.GetComponent<LootPreview>().ChangeName();
+            }
+        }
+        
+    }
+    void FillStore()
+    {
+        foreach (Transform slot in PanelVenta)
+        {
+            if (slot.childCount > 0)
+            {
+                Destroy(slot.GetChild(0));
+            }
+        }
+        foreach (Transform slot in PanelVenta)
+        {
+            var i = pc.Store.GetRandomItem(Random.Range(0, 10));
+            var t = Instantiate(LootPrefab, slot);
+            t.GetComponent<LootPreview>().itemdata = i;
+            t.GetComponent<LootPreview>().ChangeName();
         }
     }
 

@@ -5,57 +5,84 @@ using Map;
 
 public class Map_Movement : MonoBehaviour
 {
+    [SerializeField] SpriteRenderer sr;
     Camera_zoomnode cam_comp;
-    GameObject player;
+    MapUi mu;
+    SceneControl sc;
+    Node noderef;
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         cam_comp = GameObject.FindGameObjectWithTag("2nd Cam").GetComponent<Camera_zoomnode>();
+        sc = GameObject.Find("EventSystem").GetComponent<SceneControl>();
+        mu = FindObjectOfType<MapUi>();
+        noderef = GetComponent<NodeContainer>().Nodeinfo;
     }
-    
+    private void Update()
+    {
+        if (sr.enabled == false && noderef.Layer == (sc.CurrentNode.Layer+1))
+        {
+            foreach(Node_Conection nc in sc.CurrentNode.Node_Conections)
+            {
+                if(nc.Conection_Child == noderef)
+                {
+                    sr.enabled = true;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if(sr.enabled == true && noderef.Layer  <= (sc.CurrentNode.Layer)) { sr.enabled = false; }
+        }
+    }
     private void OnMouseDown()
     {
-        /*
-        print(transform.localPosition);
-        print(transform.position);
-        Vector3 cuurent_coor = transform.position;
-        player.transform.position = cuurent_coor;
-        cam_comp.Update_Node(cuurent_coor);
-        cam_comp.Change_Camera();
-        */
-        Node noderef = gameObject.GetComponent<NodeContainer>().Nodeinfo;
-        SceneControl sc = GameObject.Find("EventSystem").GetComponent<SceneControl>();
-        bool yarnus = true;
         foreach(Node_Conection nc in sc.CurrentNode.Node_Conections)
         {
             if(nc.Conection_Child == noderef)
             {
-                NodeType query = gameObject.GetComponent<NodeContainer>().Nodeinfo.N_Type;
-                if (query == NodeType.Store)
+                sc.CurrentNode = noderef;
+                sc.CNodeObject = gameObject.transform;
+                mu.UpdateArrow(transform.position);
+                Debug.Log("transform.postition:" + transform.position);
+                switch (noderef.N_Type)
                 {
-                    GameObject.Find("EventSystem").GetComponent<SceneControl>().CurrentNode =
-                        gameObject.GetComponent<NodeContainer>().Nodeinfo;
-                    sc.EnterStore();
-                }
-                else if (query == NodeType.Combat || query == NodeType.Boss)
-                {
-                    GameObject.Find("EventSystem").GetComponent<SceneControl>().CurrentNode =
-                        gameObject.GetComponent<NodeContainer>().Nodeinfo;
-                    sc.EnterCombat();
-                }
-                else
-                {
-                    Debug.Log("Valid Node");
-                    GameObject.Find("EventSystem").GetComponent<SceneControl>().CurrentNode =
-                        gameObject.GetComponent<NodeContainer>().Nodeinfo;
-                    yarnus = false;
+                    case NodeType.Combat:
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(0);
+                        break;
+                    case NodeType.Elite:
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(0);
+                        break;
+                    case NodeType.Boss:
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(0);
+                        break;
+                    case NodeType.Store:
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(1);
+                        break;
+                    case NodeType.Random:
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(2);
+                        break;
+                    case NodeType.Upgrade:
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(3);
+                        break;
+                    case NodeType.Heal:
+                        mu.ShowEventUi(0);
+                        break;
+                    case NodeType.Chest:
+                        mu.ShowEventUi(1);
+                        break;
+                    case NodeType.Blessing:
+                        mu.ShowEventUi(2);
+                        break;
                 }
                 break;
             }
-        }
-        if (yarnus)
-        {
-            Debug.Log("Node invalid");
         }
     }
 }

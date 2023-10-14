@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Map;
@@ -19,27 +18,32 @@ public class Map_Generation : MonoBehaviour
 
     private void Start()
     {
-
+        TestAlg();
     }
     public void TestAlg()
     {
         nodes.Clear();
         GenerateMapRecursive(0);
         SpawnMap();
+        GetComponent<MapInteractions>().nodes = nodes;
+        nodes.Find(x => x.Layer == 0).name = "A";
+        GetComponent<MapInteractions>().RenameSimple(configuration.Map_Layers);
     }
     private void SpawnMap()
     {
         Node spawn = nodes.Find(x => x.Layer == 0);
-        //diferencia de almenos 1.2f\
         var nodespawn = Instantiate(spawn.icon, gameObject.transform);
         nodespawn.transform.position = Vector3.zero;
         nodespawn.GetComponent<NodeContainer>().SetNode(spawn);
         coords.Clear();
         SpawnChild(spawn, nodespawn);
-        GameObject.Find("EventSystem").GetComponent<SceneControl>().CurrentNode = spawn;
-        GameObject.Find("EventSystem").GetComponent<SceneControl>().MaxLvlZone = configuration.Map_MaxLevel;
+        SceneControl sc = GameObject.Find("EventSystem").GetComponent<SceneControl>();
+        sc.CurrentNode = spawn;
+        sc.CNodeObject = nodespawn.transform;
+        sc.MaxLvlZone = configuration.Map_MaxLevel;
 
     }
+    
     private Node GenerateMapRecursive(int layer)
     {
         if (layer < configuration.Map_Layers)
@@ -226,10 +230,10 @@ public class Map_Generation : MonoBehaviour
                     Physics2D.SyncTransforms();
                     if (Physics2D.OverlapCircleAll(new Vector3(x, y, 0f), 0.55f, 1 << 7 ).Length > 0)
                     {
-                        Debug.Log("collisions detected in : " + new Vector3(x, y, 0f));
+                        //Debug.Log("collisions detected in : " + new Vector3(x, y, 0f));
                         foreach (var test in Physics2D.OverlapCircleAll(new Vector3(x, y, 0f), 0.55f, 1 << 7))
                         {
-                            Debug.Log("Object: "+test.gameObject.name + "\t coor : " + test.transform.position);
+                            //Debug.Log("Object: "+test.gameObject.name + "\t coor : " + test.transform.position);
                         }
                         y = Random.Range(y_parent - 3.0f, y_parent + 3.0f);
                         x = Random.Range(xref - 1.6f, xref + 1.6f);
@@ -237,13 +241,13 @@ public class Map_Generation : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("No collision Coor: " + new Vector3(x, y, 0f));
+                        //Debug.Log("No collision Coor: " + new Vector3(x, y, 0f));
                         break;
                     }
                 }
                 if(stop > 0)
                 {
-                    Debug.Log("Times coords updated : " + stop+"\t Final coord : "+ new Vector3(x, y, 0f));
+                    //Debug.Log("Times coords updated : " + stop+"\t Final coord : "+ new Vector3(x, y, 0f));
                 }
                 var nodeimage = Instantiate(nc.Conection_Child.icon, gameObject.transform);
                 nodeimage.GetComponent<NodeContainer>().SetNode(nc.Conection_Child);
@@ -261,13 +265,16 @@ public class Map_Generation : MonoBehaviour
         node.Layer = layer;
         if (layer == 0)
         {
+            
             node.N_Type = NodeType.Spawn;
             node.icon = icons[0];
+            node.name = icons[0].name;
         }
         else if (layer > configuration.Map_Layers)
         {
             node.N_Type = NodeType.Boss;
             node.icon = icons[4];
+            node.name = icons[4].name;
         }
         else
         {
@@ -284,11 +291,13 @@ public class Map_Generation : MonoBehaviour
             case 0:
                 node.N_Type = NodeType.Normal;
                 node.icon = icons[1];
+                node.name = icons[1].name;
                 break;
             case 1:
                 node.N_Type = NodeType.Combat;//combat
                 node.icon = icons[2];
-                
+                node.name = icons[2].name;
+
                 for (int x = 0; x < 3; x++)
                 {
                     int re = Random.Range(0, enemylist.Length);
@@ -298,15 +307,14 @@ public class Map_Generation : MonoBehaviour
             case 2://elites
                 if (n_elites < configuration.Map_Elites)
                 {
-                    node.N_Type = NodeType.Normal;//elite
+                    node.N_Type = NodeType.Elite;//elite
                     node.icon = icons[3];
-                    /*
+                    node.name = icons[3].name;
                     for (int x = 0; x < 3; x++)
                     {
                         int re = Random.Range(0, enemylist.Length);
                         node.Node_Enemies.Add(enemylist[re]);
                     }
-                    */
                     n_elites++;
                 }
                 else
@@ -320,6 +328,7 @@ public class Map_Generation : MonoBehaviour
                 {
                     node.N_Type = NodeType.Heal;
                     node.icon = icons[9];
+                    node.name = icons[9].name;
                 }
                 else
                 {
@@ -332,6 +341,7 @@ public class Map_Generation : MonoBehaviour
                 {
                     node.N_Type = NodeType.Upgrade;
                     node.icon = icons[8];
+                    node.name = icons[8].name;
                 }
                 else
                 {
@@ -343,6 +353,7 @@ public class Map_Generation : MonoBehaviour
                 {
                     node.N_Type = NodeType.Store;
                     node.icon = icons[6];
+                    node.name = icons[6].name;
                     n_stores++;
                 }
                 else
@@ -356,6 +367,7 @@ public class Map_Generation : MonoBehaviour
                 {
                     node.N_Type = NodeType.Chest;
                     node.icon = icons[7];
+                    node.name = icons[7].name;
                 }
                 else
                 {
@@ -365,6 +377,7 @@ public class Map_Generation : MonoBehaviour
             case 7://random node
                 node.N_Type = NodeType.Random;
                 node.icon = icons[5];
+                node.name = icons[5].name;
                 break;
             case 8://blessing
                 chance = Random.value;
@@ -372,6 +385,7 @@ public class Map_Generation : MonoBehaviour
                 {
                     node.N_Type = NodeType.Blessing;
                     node.icon = icons[10];
+                    node.name = icons[10].name;
                 }
                 else
                 {

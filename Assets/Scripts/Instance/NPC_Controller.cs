@@ -20,6 +20,11 @@ public class NPC_Controller : MonoBehaviour
         _magic = _npcData.npc_usesMagic;
         DontDestroyOnLoad(gameObject);
     }
+    public void CheckStatus()
+    {
+        if (_health > _maxHealth) { _health = _maxHealth; }
+        else if (_health <= 0){_isAlive = false;}
+    }
     public void HpModifier(int effect, bool positive)
     {
         if (positive)

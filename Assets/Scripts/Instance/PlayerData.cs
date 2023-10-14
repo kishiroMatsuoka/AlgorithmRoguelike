@@ -7,13 +7,13 @@ public class PlayerData : ScriptableObject
 {
     public playerClass p_class;
     public int hp;
-    public int maxhp;
     public int def;
     public int maxcost;
     public Inventory inventory;
-
+    [TextArea(10, 15)]
+    public string description;
     public enum playerClass
     {
-        Warrior,Thief,Mage,Berserker,Test 
+        Warrior,Thief,Mage,Berserker,Tank 
     }
 }

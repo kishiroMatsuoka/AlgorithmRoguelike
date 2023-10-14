@@ -1,24 +1,34 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ItemSystem;
 
 public class Player_Controller : MonoBehaviour
 {
-    public int Score = 0;
-    [SerializeField] PlayerData _playerData;
-    public List<NPC_Controller> party = new List<NPC_Controller>();
+    //System Access
+    public PoolTable Store, Combat, General;
+    [HideInInspector] public List<NPC_Controller> party = new List<NPC_Controller>();
     public Inventory _inventory;
     public int _hp, _maxhp, _def, _maxcost, money = 100;
+    public int Score = 0;
+    //internal Access
+    [SerializeField] PlayerData _playerData;
+    bool EducationMode = false;
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        
+
         _hp = _playerData.hp;
-        _maxhp = _playerData.maxhp;
+        _maxhp = _hp;
         _def = _playerData.def;
         _maxcost = _playerData.maxcost;
-        _inventory = _playerData.inventory;
+        _inventory = Instantiate(_playerData.inventory);
         print("Player data Loaded");
+    }
+    public void CheckStatus()
+    {
+        if (_hp > _maxhp) { _hp = _maxhp; }
+        else if (_hp <= 0) { //dedad
+                             }
     }
     public void PartyAttack(List<Enemy> en)
     {
@@ -66,5 +76,7 @@ public class Player_Controller : MonoBehaviour
             }
         }
     }
-
+    public void E_Mode(){EducationMode = true;}
+    public bool EModeS(){return EducationMode;}
+    public string GetDescription(){return _playerData.description;}
 }

@@ -75,7 +75,6 @@ public class Drag_Drop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         isHovering = false;
         desc_updated = false;
         cc.itemdesc.SetActive(false);
-
     }
     public void OnDrag(PointerEventData eventData)
     {

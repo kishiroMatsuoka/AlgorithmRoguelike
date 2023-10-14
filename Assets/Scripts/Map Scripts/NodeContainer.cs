@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Map;
+using TMPro;
 
 public class NodeContainer : MonoBehaviour
 {
+    [SerializeField] TextMeshPro Name;
     public Node Nodeinfo;
     public void SetNode(Node node)
     {
         Nodeinfo = node;
+        Name.text = Nodeinfo.name;
     }
-    private void OnMouseDown()
+    public void UpdateName()
     {
-        Debug.Log("node pressed");
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        //Gizmos.DrawSphere(transform.position, 0.6f);
+        Name.text = Nodeinfo.name;
     }
 }

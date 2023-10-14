@@ -9,18 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 151762cb80f3e7e479c5dda4a000b9a4
   - enabled: 1
-    path: Assets/Scenes/Combat Scene.unity
-    guid: c53ac0f5610792b43ae7e20b6095018e
-  - enabled: 1
-    path: Assets/Scenes/Store.unity
-    guid: 8f569f1c991f8644982239b791a1cebd
-  - enabled: 1
     path: Assets/Scenes/level1.unity
     guid: db96031f0f05fe246982aa42f0dbf587
-  - enabled: 1
-    path: Assets/Scenes/level2.unity
-    guid: d2c3926aff33f254695ed6f8f482d0fd
-  - enabled: 1
-    path: Assets/Scenes/level3.unity
-    guid: 18d7d77b559dba748a5cb8b9c1af01bb
   m_configObjects: {}

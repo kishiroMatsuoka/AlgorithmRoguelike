@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f493888b4e429e40b3fa1cb49ec2fce, type: 3}
+  m_Name: BerserkerInv
+  m_EditorClassIdentifier: 
+  functions:
+  - {fileID: 11400000, guid: 730ec4f1bebd4404faef06274b78598e, type: 2}
+  - {fileID: 11400000, guid: 730ec4f1bebd4404faef06274b78598e, type: 2}
+  - {fileID: 11400000, guid: 65e187f17d1d1534c9efa61f99fb01b2, type: 2}
+  - {fileID: 11400000, guid: 2cb5bd6796708d947b00ac48c8d06249, type: 2}
+  - {fileID: 11400000, guid: 2cb5bd6796708d947b00ac48c8d06249, type: 2}
+  - {fileID: 11400000, guid: fbea2e6a16cbfcd4899d73db71009d11, type: 2}
+  - {fileID: 11400000, guid: fbea2e6a16cbfcd4899d73db71009d11, type: 2}
+  variables:
+  - {fileID: 11400000, guid: bd2f9e705eb367e4d9f5eb5da818b3c5, type: 2}
+  - {fileID: 11400000, guid: bd2f9e705eb367e4d9f5eb5da818b3c5, type: 2}
+  - {fileID: 11400000, guid: cce1c804377f4414ca7839d40f729424, type: 2}
+  - {fileID: 11400000, guid: cce1c804377f4414ca7839d40f729424, type: 2}
+  - {fileID: 11400000, guid: cce1c804377f4414ca7839d40f729424, type: 2}
+  - {fileID: 11400000, guid: b756d418bdd950c449ee98f05c1cfaac, type: 2}
+  - {fileID: 11400000, guid: b756d418bdd950c449ee98f05c1cfaac, type: 2}
+  equipment: []
+  consumibles: []
+  used_consumibles: []

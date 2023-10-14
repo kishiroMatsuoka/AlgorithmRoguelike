@@ -7,6 +7,7 @@ public class NPCUi : MonoBehaviour
 {
     [SerializeField] Image _greenbar, _redbar;
     [SerializeField] TextMeshProUGUI _hpcounter;
+    public bool UsePercentage = false;
     public NPC_Controller controller;
     bool is_start = true;
     int currenthp, maxhp;
@@ -28,8 +29,15 @@ public class NPCUi : MonoBehaviour
     {
         currenthp = controller._health;
         maxhp = controller._maxHealth;
-        _hpcounter.text = currenthp + " Hp";
         float hppercentage = ((currenthp * 100) / maxhp) / 100.0f;
+        if (UsePercentage)
+        {
+            _hpcounter.text = hppercentage + "%";
+        }
+        else
+        {
+            _hpcounter.text = currenthp + " Hp";
+        }
         if (is_start)
         {
             _greenbar.fillAmount = hppercentage;

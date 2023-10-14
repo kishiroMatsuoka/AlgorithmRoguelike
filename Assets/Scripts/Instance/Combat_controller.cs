@@ -6,7 +6,7 @@ using TMPro;
 
 public class Combat_controller : MonoBehaviour 
 {
-    public PoolTable loot;
+    [HideInInspector] public PoolTable loot;
     public GameObject fun_prefab, var_prefab, cons_prefab, enemy_parent
         , itemdesc, CombatResultScreen;
     public List<Actions> ActionsInBoard = new List<Actions>();
@@ -18,7 +18,6 @@ public class Combat_controller : MonoBehaviour
     public bool Dragging = false;
     void OnEnable()
     {
-
         pc = GameObject.Find("Player").GetComponent<Player_Controller>();
         Max_cost = pc._maxcost;
         Current_cost = 0;
@@ -29,6 +28,10 @@ public class Combat_controller : MonoBehaviour
         FillInventory();
         //n_enemy = GameObject.Find("EventSystem").GetComponent<SceneControl>().CurrentNode.Node_Enemies;
         SpawnEnemies();
+    }
+    private void Start()
+    {
+        loot = pc.Combat;
     }
     public void AdvanceTurn(){
         //Update turn counter
