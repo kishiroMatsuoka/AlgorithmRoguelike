@@ -7,7 +7,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] Enemies enemydata;
-    [HideInInspector] public int _enemylvl, _enemyhp, _enemyspeed, _enemydmg, _enemydef;
+    public int _enemylvl, _enemyhp, _enemyspeed, _enemydmg, _enemydef;
     public bool Recursion = false;
     //local calculations
     Combat_controller cc;
@@ -53,7 +53,6 @@ public class Enemy : MonoBehaviour
     }
     public void ChangeHp(int effect, bool magic)
     {
-        print("Enemy Receive dmg");
         if(magic)
         {
             float res = ClassRes();
@@ -62,11 +61,13 @@ public class Enemy : MonoBehaviour
                 float reduction = effect - (effect * res / 100);
                 effect = (int)System.Math.Round(reduction);
             }
+            print("Enemy Receive mag dmg " + effect);
             _enemyhp -= effect;
         }
         else
         {
-            print("Dmg calculated: " + (effect - (_enemydef + def_effect)));
+            print("Enemy Receive dmg, " +
+                "Dmg calculated: " + (effect - (_enemydef + def_effect)));
             _enemyhp -= (effect-(_enemydef+def_effect));
         }
         //check if dead
@@ -110,6 +111,7 @@ public class Enemy : MonoBehaviour
     {
         if (last_used != null)
         {
+            print("Enemigo Usa Ataque Potente");
             List<Skills> temp =  enemydata.Enemy_Skills.FindAll(s => s.skill_type == Skills.SkillType.FinalAttack);
             Skills skill = temp[Random.Range(0, temp.Count)];
             if (skill.Skill_target == Skills.TargetType.Single)
@@ -125,15 +127,13 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Debug.Log("Choosing Skill");
-            int skill_n = Random.Range(0,enemydata.Enemy_Skills.Count);
-            Skills skill = enemydata.Enemy_Skills[skill_n];
+            Skills skill = enemydata.Enemy_Skills[Random.Range(0, enemydata.Enemy_Skills.Count)];
             switch(skill.skill_type)
             {
                 case Skills.SkillType.Attack:
+                    print("Enemigo usa Basic Attack ");
                     if(skill.Skill_target == Skills.TargetType.Single)
                     {
-                        Debug.Log("Skill used: " + skill.Name+ "\nSkill type: " + skill.skill_type);
                         pc.PartyRecieveDmg(CalculateDmg(skill),false);
                         dmg_effect = 0;
                     }
@@ -143,6 +143,7 @@ public class Enemy : MonoBehaviour
                     }
                     break;
                 case Skills.SkillType.Buff:
+                    print("Enemigo usa Buff Skill");
                     if (skill.Skill_target == Skills.TargetType.Single)
                     {
                         switch (skill.skill_stat)
@@ -161,9 +162,9 @@ public class Enemy : MonoBehaviour
                     }
                     break;
                 case Skills.SkillType.Debuff:
+                    print("Enemigo usa debuf");
                     if (skill.Skill_target == Skills.TargetType.Single)
                     {
-                        Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
                         switch (skill.skill_stat)
                         {
                             case Skills.StatTarget.Attack:
@@ -179,7 +180,6 @@ public class Enemy : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
                         switch (skill.skill_stat)
                         {
                             case Skills.StatTarget.Attack:
@@ -195,15 +195,11 @@ public class Enemy : MonoBehaviour
                     }
                     break;
                 case Skills.SkillType.PreparationAttack:
-                    Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
+                    Debug.Log("Enemigo Prepara un Ataque");
                     last_used = skill;
                     break;
                 case Skills.SkillType.FinalAttack:
-                    if(last_used == null)
-                    {
-                        Debug.Log("Skill used: " + skill.Name + "\nSkill type: " + skill.skill_type);
-                        UseSkill(pc);
-                    }
+                    UseSkill(pc);
                     break;
             }
         }

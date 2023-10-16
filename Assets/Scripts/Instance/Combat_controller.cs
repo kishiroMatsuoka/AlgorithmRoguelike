@@ -6,7 +6,6 @@ using TMPro;
 
 public class Combat_controller : MonoBehaviour 
 {
-    [HideInInspector] public PoolTable loot;
     public GameObject fun_prefab, var_prefab, cons_prefab, enemy_parent
         , itemdesc, CombatResultScreen;
     public List<Actions> ActionsInBoard = new List<Actions>();
@@ -16,34 +15,45 @@ public class Combat_controller : MonoBehaviour
     [SerializeField] TextMeshProUGUI turn_text, CostCounter, Cost_maxtxt,extraCost;
     Player_Controller pc;
     public bool Dragging = false;
+    public int combat_score,c_dmg;
+    bool StopCombat = false;
     void OnEnable()
     {
+        //Combat Variables Settings//
         pc = GameObject.Find("Player").GetComponent<Player_Controller>();
+        combat_score = 1000;c_dmg = 0;
         Max_cost = pc._maxcost;
-        Current_cost = 0;
-        e_cost = 0;
-        turn_counter = 1;
-        Cost_maxtxt.text = "Max:" + pc._maxcost;
-        turn_text.text = "1";
+        Current_cost = 0;e_cost = 0;turn_counter = 1;
+        Cost_maxtxt.text = "Max:" + pc._maxcost;turn_text.text = "1";
+        //Enemy Spawning//
         FillInventory();
-        //n_enemy = GameObject.Find("EventSystem").GetComponent<SceneControl>().CurrentNode.Node_Enemies;
         SpawnEnemies();
     }
-    private void Start()
+    public void DmgScore(int dmg)
     {
-        loot = pc.Combat;
+        c_dmg += dmg;
+        if(c_dmg >= 50) { combat_score -= 100;c_dmg = 0; }
     }
     public void AdvanceTurn(){
         //Update turn counter
         turn_counter++;
         turn_text.text = turn_counter.ToString();
         //play board
-        foreach (Actions action in ActionsInBoard) { CodeToExecute(action); }
-        CheckDead();
-        if (!CombatResultScreen.activeSelf)
+        foreach (Actions action in ActionsInBoard) {
+            if (!StopCombat)
+            {
+                CodeToExecute(action);
+            }
+        }
+        StopCombat =  CheckDead();
+        if (!CombatResultScreen.activeSelf  && !StopCombat)
         {
             //enemy turn
-            foreach (Enemy x in n_enemy) { x.UseSkill(pc); }
+            foreach (Enemy x in n_enemy) {
+                if (!x.IsDead) {
+                    print("Enemigo Elige Skill");
+                    x.UseSkill(pc); }
+            }
         }
         //remove buffs
         e_dmg = 0;
@@ -82,13 +92,15 @@ public class Combat_controller : MonoBehaviour
             extraCost.transform.parent.gameObject.SetActive(false);
         }
     }
-    void CheckDead()
+    bool CheckDead()
     {
-        n_enemy.RemoveAll(x => x.IsDead = true);
+        n_enemy.RemoveAll(x => x.IsDead == true);
         if (n_enemy.Count == 0)
         {
             CombatResultScreen.SetActive(true);
+            return true;
         }
+        return false;
     }
     public void CodeToExecute(Actions code)
     {

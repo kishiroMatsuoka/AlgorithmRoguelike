@@ -9,20 +9,26 @@ public class Player_Controller : MonoBehaviour
     public Inventory _inventory;
     public int _hp, _maxhp, _def, _maxcost, money = 100;
     public int Score = 0;
+    public bool PlayerDead = false;
     //internal Access
     [SerializeField] PlayerData _playerData;
     bool EducationMode = false;
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        
-
         _hp = _playerData.hp;
         _maxhp = _hp;
         _def = _playerData.def;
         _maxcost = _playerData.maxcost;
         _inventory = Instantiate(_playerData.inventory);
         print("Player data Loaded");
+    }
+    private void Update()
+    {
+        if (PlayerDead)
+        {
+            FindObjectOfType<SceneControl>().GameOver(Score);
+        }
     }
     public void CheckStatus()
     {
@@ -69,10 +75,20 @@ public class Player_Controller : MonoBehaviour
         else
         {
             int tempdef = _def + FindObjectOfType<Combat_controller>().e_def;
-            _hp -= (effect - tempdef);
+            FindObjectOfType<Combat_controller>().DmgScore(effect - tempdef);
+            if((effect - tempdef) > 5)
+            {
+                _hp -= (effect - tempdef);
+            }
+            else
+            {
+                _hp -= 5;
+            }
+
+            Debug.Log("Player Received dmg: " + (effect - tempdef));
             if (_hp <= 0)
             {
-                //player dead
+                PlayerDead = true;
             }
         }
     }

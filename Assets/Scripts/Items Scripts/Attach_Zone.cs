@@ -112,7 +112,7 @@ public class Attach_Zone : MonoBehaviour, IDropHandler
         else if (g.GetComponent<Variable_Handler>() != null)
         {
             var x = g.GetComponent<Variable_Handler>();
-            x.function.var_ref = null;
+            try { x.function.var_ref = null; } catch { }
             x.function = null;
             x.Parent_Transform.GetComponent<Attach_Zone>().Occupied = false;
             g.transform.SetParent(cc.var_inv);

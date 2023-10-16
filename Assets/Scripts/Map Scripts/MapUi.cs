@@ -18,7 +18,7 @@ public class MapUi : MonoBehaviour
         pc = FindObjectOfType<Player_Controller>();
         UpdateParty();
     }
-    void UpdateParty()
+    public void UpdateParty()
     {
         int count = 1;
         //SlotsParty[0].GetComponent<Image>().sprite = 

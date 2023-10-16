@@ -37,12 +37,14 @@ public class Camera_zoomnode : MonoBehaviour
                 case 3://upgrade
                     Upgrade.SetActive(true);
                     break;
+                default:
+                    break;
             }
         }
         else
         {
             Cam_main.enabled = true;
-            Cam_second.enabled = true;
+            Cam_second.enabled = false;
             StoreUi.SetActive(false);
             CombatUi.SetActive(false);
             Random.SetActive(false);

@@ -14,6 +14,7 @@ public class HUDUI : MonoBehaviour
     void OnEnable()
     {
         _combatcontroller = GameObject.Find("Player").GetComponent<Player_Controller>();
+        UpdateHealth();
         currenthp = _combatcontroller._hp;
     }
     private void Update()

@@ -18,7 +18,7 @@ public class RandomEvent : MonoBehaviour
     // Update is called once per frame
     void GenerateRandomEvent()
     {
-        int ran = Random.Range(0, 5);
+        int ran = Random.Range(0, 4);
         SceneControl sc = FindObjectOfType<SceneControl>();
         switch (ran)
         {
@@ -129,6 +129,7 @@ public class RandomEvent : MonoBehaviour
                 GoldGained.gameObject.SetActive(true);
                 TextTitle.text = "Personaje se ha unido a la party";
                 GoldGained.text = npcname;
+                FindObjectOfType<MapUi>().UpdateParty();
                 break;
         }
     }

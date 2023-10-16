@@ -44,7 +44,7 @@ MonoBehaviour:
     skill_type: 4
     Skill_target: 1
     skill_stat: 0
-  Enemy_Health: 280
-  Enemy_Damage: 100
+  Enemy_Health: 60
+  Enemy_Damage: 30
   Enemy_Defense: 0
   Enemy_Class: 3

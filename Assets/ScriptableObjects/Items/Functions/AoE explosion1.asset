@@ -20,7 +20,7 @@ MonoBehaviour:
   EffectType: 1
   TargetType: 1
   StatMod: 0
-  magic: 0
+  magic: 1
   multihit: 0
   Percent: 0
   hits: 0

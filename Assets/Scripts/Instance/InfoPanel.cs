@@ -6,7 +6,6 @@ using TMPro;
 
 public class InfoPanel : MonoBehaviour
 {
-    public List<NPC_Controller> npcs = new List<NPC_Controller>();
     [SerializeField] List<NPCUi> npcuis = new List<NPCUi>();
     [SerializeField] List<Image> npcuimages = new List<Image>();
     [SerializeField] TextMeshProUGUI Defense, Money;
@@ -20,7 +19,7 @@ public class InfoPanel : MonoBehaviour
         Defense.text = pc._def.ToString();
         Money.text = pc.money.ToString();
         int counter = 0;
-        foreach(NPC_Controller x in npcs)
+        foreach(NPC_Controller x in pc.party)
         {
             npcuis[counter].transform.parent.gameObject.SetActive(true);
             npcuis[counter].controller = x;

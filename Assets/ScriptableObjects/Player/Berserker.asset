@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker
   m_EditorClassIdentifier: 
   p_class: 3
-  hp: 125
+  hp: 95
   def: 10
   maxcost: 4
   inventory: {fileID: 11400000, guid: be3f4a40ad14e9f4398860fd2582646e, type: 2}

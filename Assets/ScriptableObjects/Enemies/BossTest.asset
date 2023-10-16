@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d019e6a370311b49b6e89a7a4af3ff0, type: 3}
-  m_Name: Berserker 2
+  m_Name: BossTest
   m_EditorClassIdentifier: 
-  Enemy_Name: Basic Berserker
+  Enemy_Name: RecursiveBoss
   Enemy_Skills:
   - Name: Basic Attack
     skill_multiplier: 100
@@ -44,7 +44,7 @@ MonoBehaviour:
     skill_type: 4
     Skill_target: 1
     skill_stat: 0
-  Enemy_Health: 80
-  Enemy_Damage: 40
-  Enemy_Defense: 5
-  Enemy_Class: 3
+  Enemy_Health: 100
+  Enemy_Damage: 45
+  Enemy_Defense: 0
+  Enemy_Class: 7
