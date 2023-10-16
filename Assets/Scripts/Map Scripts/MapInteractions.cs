@@ -74,7 +74,14 @@ public class MapInteractions : MonoBehaviour
             if(nc.Conection_Child.N_Type != NodeType.Boss)
             {
                 //+ "-L: " + nc.Conection_Child.Layer
-                travel += "," + nc.Conection_Child.name;
+                if(nc.Conection_Child.N_Type != NodeType.Normal)
+                {
+                    travel += "," + nc.Conection_Child.name+"["+ nc.Conection_Child.N_Type+"]";
+                }
+                else
+                {
+                    travel += "," + nc.Conection_Child.name;
+                }
                 PreOrden(nc.Conection_Child);
             }
         }

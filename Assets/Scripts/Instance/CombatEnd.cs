@@ -8,12 +8,10 @@ public class CombatEnd : MonoBehaviour
     [SerializeField] GameObject LootZone, Lootprefab;
     [SerializeField] Combat_controller cc;
     Player_Controller pc;
-    private void Start()
-    {
-        pc = FindObjectOfType<Player_Controller>();
-    }
+
     private void OnEnable()
     {
+        pc = FindObjectOfType<Player_Controller>();
         Time.timeScale = 0;
         pc.Score += cc.combat_score;
         if(Slot1.gameObject.activeSelf || Slot2.gameObject.activeSelf)

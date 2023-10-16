@@ -5,7 +5,7 @@ using Map;
 
 public class Map_Movement : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer sr;
+    [SerializeField] SpriteRenderer sr,unk;
     Camera_zoomnode cam_comp;
     MapUi mu;
     SceneControl sc;
@@ -26,6 +26,7 @@ public class Map_Movement : MonoBehaviour
                 if(nc.Conection_Child == noderef)
                 {
                     sr.enabled = true;
+                    unk.enabled = false;
                     break;
                 }
             }
