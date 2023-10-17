@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7592f860a8c5654da197fcfae471a4a, type: 3}
   m_Name: num 78
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  ItemName: Physical Variable
+  ItemDescription: "Variable fisica relacionada a funciones de da\xF1o fisico."
+  ItemRarity: 4
+  ItemCost: 0
   ItemType: 1
-  Dmg: 78
   icon: {fileID: 21300000, guid: 7bbce7a91f7f83e4da85e71c2a318b2c, type: 3}
-  VarType: 1
+  Dmg: 78
+  isPercentage: 0
   IsMagic: 0
-  Rarity: 5

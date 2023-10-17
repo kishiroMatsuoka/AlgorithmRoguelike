@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7592f860a8c5654da197fcfae471a4a, type: 3}
   m_Name: num 140
   m_EditorClassIdentifier: 
-  ItemName: 
-  ItemDescription: 
+  ItemName: Magic Variable
+  ItemDescription: Variable relacionada con funciones magicas
   ItemRarity: 8
   ItemCost: 0
   ItemType: 1

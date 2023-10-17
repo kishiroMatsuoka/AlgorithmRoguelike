@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7592f860a8c5654da197fcfae471a4a, type: 3}
   m_Name: p80
   m_EditorClassIdentifier: 
-  ItemName: 
-  ItemDescription: 
+  ItemName: Variable Porcentage
+  ItemDescription: Variable porcentage para ciertas funciones
   ItemRarity: 0
   ItemCost: 0
   ItemType: 1
