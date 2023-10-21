@@ -25,7 +25,7 @@ namespace Map
         
     }
 
-    [System.Serializable]
+    //[System.Serializable]
     public class Node
     {
         public string name;

@@ -48,6 +48,7 @@ public class Map_Movement : MonoBehaviour
                 Debug.Log("transform.postition:" + transform.position);
                 switch (noderef.N_Type)
                 {
+
                     case NodeType.Combat:
                         cam_comp.Update_Node(transform.position);
                         cam_comp.Change_Camera(0);
@@ -73,13 +74,16 @@ public class Map_Movement : MonoBehaviour
                         cam_comp.Change_Camera(3);
                         break;
                     case NodeType.Heal:
-                        mu.ShowEventUi(0);
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(4);
                         break;
                     case NodeType.Chest:
-                        mu.ShowEventUi(1);
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(5);
                         break;
                     case NodeType.Blessing:
-                        mu.ShowEventUi(2);
+                        cam_comp.Update_Node(transform.position);
+                        cam_comp.Change_Camera(6);
                         break;
                 }
                 break;

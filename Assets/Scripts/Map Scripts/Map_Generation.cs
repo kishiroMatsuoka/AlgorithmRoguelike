@@ -9,6 +9,7 @@ public class Map_Generation : MonoBehaviour
     [SerializeField] private GameObject Empty;
     [SerializeField] private GameObject[] icons;
     [SerializeField] private GameObject[] enemylist, bosses;
+    public float ChanceUpgrade, ChanceHeal,ChanceChest;
     private List<Node> nodes = new List<Node>();
     private int n_bosses=0, n_stores=0, n_elites=0;
     private bool BossNodeCreated = false;
@@ -329,7 +330,7 @@ public class Map_Generation : MonoBehaviour
                 break;
             case 3://heal
                 chance = Random.value;
-                if (chance < .25f)
+                if (chance < ChanceHeal)
                 {
                     node.N_Type = NodeType.Heal;
                     node.icon = icons[9];
@@ -342,7 +343,7 @@ public class Map_Generation : MonoBehaviour
                 break;
             case 4://upgrade
                 chance = Random.value;
-                if (chance < .3f)
+                if (chance < ChanceUpgrade)
                 {
                     node.N_Type = NodeType.Upgrade;
                     node.icon = icons[8];
@@ -368,7 +369,7 @@ public class Map_Generation : MonoBehaviour
                 break;
             case 6://chest
                 chance = Random.value;
-                if (chance < .15f)
+                if (chance < ChanceChest)
                 {
                     node.N_Type = NodeType.Chest;
                     node.icon = icons[7];
@@ -386,7 +387,7 @@ public class Map_Generation : MonoBehaviour
                 break;
             case 8://blessing
                 chance = Random.value;
-                if (chance < .1f)
+                if (chance < -1f)
                 {
                     node.N_Type = NodeType.Blessing;
                     node.icon = icons[10];

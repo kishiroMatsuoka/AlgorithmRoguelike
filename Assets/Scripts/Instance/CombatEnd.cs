@@ -8,12 +8,17 @@ public class CombatEnd : MonoBehaviour
     [SerializeField] GameObject LootZone, Lootprefab;
     [SerializeField] Combat_controller cc;
     Player_Controller pc;
-
+    [SerializeField] TMPro.TextMeshProUGUI CombatPoints;
     private void OnEnable()
     {
         pc = FindObjectOfType<Player_Controller>();
         Time.timeScale = 0;
         pc.Score += cc.combat_score;
+        CombatPoints.text = 
+            cc.combat_score + " Points" +
+            cc.turn_counter+" Turnos"+
+            cc.totaldmg +" Daño total recivido"
+            ;
         if(Slot1.gameObject.activeSelf || Slot2.gameObject.activeSelf)
         {
             foreach(Transform x in Slot1) { Destroy(x); }

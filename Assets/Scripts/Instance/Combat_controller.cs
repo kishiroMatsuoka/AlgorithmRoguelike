@@ -3,7 +3,6 @@ using UnityEngine;
 using ItemSystem;
 using TMPro;
 
-
 public class Combat_controller : MonoBehaviour 
 {
     public GameObject fun_prefab, var_prefab, cons_prefab, enemy_parent
@@ -15,7 +14,7 @@ public class Combat_controller : MonoBehaviour
     [SerializeField] TextMeshProUGUI turn_text, CostCounter, Cost_maxtxt,extraCost;
     Player_Controller pc;
     public bool Dragging = false;
-    public int combat_score,c_dmg;
+    public int combat_score,c_dmg,totaldmg;
     bool StopCombat = false;
     void OnEnable()
     {
@@ -32,6 +31,7 @@ public class Combat_controller : MonoBehaviour
     public void DmgScore(int dmg)
     {
         c_dmg += dmg;
+        totaldmg += dmg;
         if(c_dmg >= 50) { combat_score -= 100;c_dmg = 0; }
     }
     public void AdvanceTurn(){
@@ -98,6 +98,10 @@ public class Combat_controller : MonoBehaviour
         if (n_enemy.Count == 0)
         {
             CombatResultScreen.SetActive(true);
+            if (FindObjectOfType<SceneControl>().CurrentNode.N_Type == Map.NodeType.Boss)
+            {
+                FindObjectOfType<SceneControl>().BossDead = true;
+            }
             return true;
         }
         return false;

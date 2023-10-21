@@ -5,9 +5,10 @@ using TMPro;
 
 public class SceneControl : MonoBehaviour
 {
-    [SerializeField] GameObject Store, Map, Combat, PauseMenu, EndScreen;
-    [SerializeField] TextMeshProUGUI Score;
+    [SerializeField] GameObject Store, Map, Combat, PauseMenu, EndScreen, LevelFinish;
+    [SerializeField] TextMeshProUGUI Score,FinalScore;
     public GameObject[] npc_pre;
+    public bool BossDead=false;
     public int MaxLvlZone;
     public Node CurrentNode;
     public Transform CNodeObject;
@@ -18,6 +19,14 @@ public class SceneControl : MonoBehaviour
         {
             Time.timeScale = 0;
             PauseMenu.SetActive(true);
+        }
+    }
+    public void CheckEndLevel()
+    {
+        if (BossDead)
+        {
+            LevelFinish.SetActive(true);
+            FinalScore.text = FindObjectOfType<Player_Controller>().Score.ToString();
         }
     }
     public void MainMenu()
@@ -65,6 +74,6 @@ public class SceneControl : MonoBehaviour
     {
         Combat.SetActive(false);
         Map.SetActive(true);
-        FindObjectOfType<Camera_zoomnode>().Change_Camera(-1);
+        FindObjectOfType<Camera_zoomnode>().Change_Camera(0);
     }
 }
