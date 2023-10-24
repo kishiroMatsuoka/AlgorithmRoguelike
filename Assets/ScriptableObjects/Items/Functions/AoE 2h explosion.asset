@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AoE 2h explosion
   m_EditorClassIdentifier: 
   ItemName: Boom Boom
-  ItemDescription: Deals _ magic dmg twice to all enemies
+  ItemDescription: "Hace _ da\xF1o magico 2 veces a todos los enemigos."
   ItemRarity: 4
   ItemCost: 4
   ItemType: 2

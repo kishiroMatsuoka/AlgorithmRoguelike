@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3hit magic aoe
   m_EditorClassIdentifier: 
   ItemName: Storm
-  ItemDescription: Deals _ magical dmg thrice to all enemies
+  ItemDescription: "Hace _ da\xF1o magico 3 veces a todos los enemigos."
   ItemRarity: 6
   ItemCost: 5
   ItemType: 2

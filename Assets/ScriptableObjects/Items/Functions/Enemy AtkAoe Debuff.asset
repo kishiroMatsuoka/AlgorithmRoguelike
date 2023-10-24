@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy AtkAoe Debuff
   m_EditorClassIdentifier: 
   ItemName: Weaken area
-  ItemDescription: Reduces all enemies defense by %_.
+  ItemDescription: Reduce la defensa de todos los enemigos en un %_.
   ItemRarity: 3
   ItemCost: 1
   ItemType: 2

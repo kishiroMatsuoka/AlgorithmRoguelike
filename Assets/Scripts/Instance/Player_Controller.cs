@@ -10,12 +10,14 @@ public class Player_Controller : MonoBehaviour
     public int _hp, _maxhp, _def, _maxcost, money = 100;
     public int Score = 0;
     public bool PlayerDead = false;
+    public Sprite SP;
     //internal Access
-    [SerializeField] PlayerData _playerData;
+    public PlayerData _playerData;
     bool EducationMode = false;
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        SP = _playerData.sprite;
         _hp = _playerData.hp;
         _maxhp = _hp;
         _def = _playerData.def;

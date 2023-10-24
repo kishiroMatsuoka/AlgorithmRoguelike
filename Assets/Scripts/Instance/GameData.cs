@@ -6,11 +6,16 @@ using UnityEngine.UI;
 public class GameData : MonoBehaviour
 {
     [SerializeField] GameObject[] player_prefabs;
+    [SerializeField] Image[] classButtonsSprites;
     [SerializeField] TextMeshProUGUI Description;
     [SerializeField] Sprite[] BSprite; 
     GameObject player;
     private void Start()
     {
+        for(int i=0; i < player_prefabs.Length; i++)
+        {
+            classButtonsSprites[i].sprite = player_prefabs[i].GetComponent<Player_Controller>()._playerData.sprite;
+        }
         SelectClass(0);
     }
     public void StartGame()

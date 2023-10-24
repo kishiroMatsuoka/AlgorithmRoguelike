@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AoE 3h phys
   m_EditorClassIdentifier: 
   ItemName: Cut cut cut
-  ItemDescription: Deals _ physical dmg thrice to all enemies
+  ItemDescription: "Hace _ da\xF1o fisico 3 veces a todos los enemigos."
   ItemRarity: 5
   ItemCost: 5
   ItemType: 2

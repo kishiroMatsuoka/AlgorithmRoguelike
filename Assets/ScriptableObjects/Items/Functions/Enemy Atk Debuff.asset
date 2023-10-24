@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy Atk Debuff
   m_EditorClassIdentifier: 
   ItemName: Weaken mist
-  ItemDescription: Reduces enemy attack by %_.
+  ItemDescription: Reduce el ataque del enemigo en un %_.
   ItemRarity: 4
   ItemCost: 3
   ItemType: 2

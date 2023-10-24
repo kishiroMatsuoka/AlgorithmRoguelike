@@ -36,14 +36,14 @@ public class CombatEnd : MonoBehaviour
         Slot1.gameObject.SetActive(true);
         var item1 = pc.Combat.GetRandomItem(0);
         var x = Instantiate(Lootprefab, Slot1);
-        x.GetComponent<LootPreview>().itemdata = item1;
+        x.GetComponent<LootPreview>().SetName(item1);
         pc._inventory.AddToInventory(item1);
         if (Random.value > .7f)
         {
             Slot2.gameObject.SetActive(true);
             var item2 = pc.Combat.GetRandomItem(0);
             var y = Instantiate(Lootprefab, Slot2);
-            y.GetComponent<LootPreview>().itemdata = item2;
+            y.GetComponent<LootPreview>().SetName(item2);
             pc._inventory.AddToInventory(item2);
 
         }

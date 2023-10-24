@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AoE 3h magic
   m_EditorClassIdentifier: 
   ItemName: Explosions!
-  ItemDescription: Deals _ magical dmg thrice to all enemies
+  ItemDescription: "Hace _ da\xF1o magico 3 veces a todos los enemigos."
   ItemRarity: 5
   ItemCost: 5
   ItemType: 2

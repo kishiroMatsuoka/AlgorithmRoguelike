@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e796b5e01d3375a4696698173933a67d, type: 3}
   m_Name: Thief
   m_EditorClassIdentifier: 
+  sprite: {fileID: -1486206743, guid: 0a3539cec630cd14f812a6a7f98dabea, type: 3}
   p_class: 1
   hp: 100
   def: 10

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1 SingleAttack
   m_EditorClassIdentifier: 
   ItemName: Simple Attack
-  ItemDescription: Deals _ physical dmg to 1 enemy
+  ItemDescription: "Hace _ da\xF1o fisico a un enemigo."
   ItemRarity: 1
   ItemCost: 1
   ItemType: 2

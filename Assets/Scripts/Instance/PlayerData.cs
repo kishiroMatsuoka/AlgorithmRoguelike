@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="PlayerData/CreatePlayerData",fileName ="NewPlayerData")]
 public class PlayerData : ScriptableObject
 {
+    public Sprite sprite;
     public playerClass p_class;
     public int hp;
     public int def;

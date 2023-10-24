@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Def Buff
   m_EditorClassIdentifier: 
   ItemName: Def Up
-  ItemDescription: Increases player defense by _-
+  ItemDescription: Aumenta la defensa del jugador en %_ durante el turno.
   ItemRarity: 2
   ItemCost: 1
   ItemType: 2

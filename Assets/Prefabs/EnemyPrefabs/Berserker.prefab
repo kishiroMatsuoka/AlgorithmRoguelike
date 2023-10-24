@@ -261,6 +261,7 @@ MonoBehaviour:
   _enemyspeed: 0
   _enemydmg: 0
   _enemydef: 0
+  Recursion: 0
   IsDead: 0
 --- !u!1001 &7181293105388759740
 PrefabInstance:

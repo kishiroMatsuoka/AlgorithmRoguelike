@@ -19,11 +19,6 @@ MonoBehaviour:
     skill_type: 0
     Skill_target: 0
     skill_stat: 0
-  - Name: Attack Up
-    skill_multiplier: 20
-    skill_type: 1
-    Skill_target: 0
-    skill_stat: 0
   - Name: Defense Up
     skill_multiplier: 15
     skill_type: 1
@@ -43,6 +38,26 @@ MonoBehaviour:
     skill_multiplier: 110
     skill_type: 4
     Skill_target: 1
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 20
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 20
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 20
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 20
+    skill_type: 1
+    Skill_target: 0
     skill_stat: 0
   Enemy_Health: 80
   Enemy_Damage: 40

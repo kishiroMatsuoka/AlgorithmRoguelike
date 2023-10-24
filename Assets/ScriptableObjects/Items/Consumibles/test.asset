@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   ItemName: Wind cutter Scroll
-  ItemDescription: Deals 25 Magic Dmg, thrice to 1 enemy
-  ItemRarity: 0
-  ItemCost: 0
+  ItemDescription: "Hace 25 da\xF1o magico, 3 veces a un enemigo."
+  ItemRarity: 4
+  ItemCost: 3
   ItemType: 0
   itemSprite: {fileID: 0}
   Uses: 3

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3hit magic
   m_EditorClassIdentifier: 
   ItemName: Firebolt barrage
-  ItemDescription: Deals _ magical dmg thrice to 1 enemy
+  ItemDescription: "Hace _ da\xF1o magico 3 veces a un enemigo."
   ItemRarity: 4
   ItemCost: 3
   ItemType: 2

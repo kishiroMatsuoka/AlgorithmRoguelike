@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f6478485761ee48b33d0d962c0abc9, type: 3}
   m_Name: Mage
   m_EditorClassIdentifier: 
+  npc_sprite: {fileID: -2079541430, guid: 0a3539cec630cd14f812a6a7f98dabea, type: 3}
   npc_name: Gondolf
   npc_dmg: 25
   npc_health: 125

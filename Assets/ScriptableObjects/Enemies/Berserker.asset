@@ -14,19 +14,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemy_Name: Basic Berserker
   Enemy_Skills:
+  - Name: Defense Up
+    skill_multiplier: 15
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
   - Name: Basic Attack
     skill_multiplier: 100
     skill_type: 0
     Skill_target: 0
     skill_stat: 0
-  - Name: Attack Up
-    skill_multiplier: 20
-    skill_type: 1
+  - Name: Basic Attack
+    skill_multiplier: 100
+    skill_type: 0
     Skill_target: 0
     skill_stat: 0
-  - Name: Defense Up
-    skill_multiplier: 15
-    skill_type: 1
+  - Name: Basic Attack
+    skill_multiplier: 100
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Basic Attack
+    skill_multiplier: 100
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Basic Attack
+    skill_multiplier: 100
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Wide Hit
+    skill_multiplier: 110
+    skill_type: 4
+    Skill_target: 1
+    skill_stat: 0
+  - Name: Heavy Hit
+    skill_multiplier: 150
+    skill_type: 4
     Skill_target: 0
     skill_stat: 0
   - Name: Warming Up
@@ -34,15 +59,25 @@ MonoBehaviour:
     skill_type: 3
     Skill_target: 0
     skill_stat: 0
-  - Name: Heavy Hit
-    skill_multiplier: 150
-    skill_type: 4
+  - Name: Warming Up
+    skill_multiplier: 0
+    skill_type: 3
     Skill_target: 0
     skill_stat: 0
-  - Name: Wide Hit
-    skill_multiplier: 110
-    skill_type: 4
-    Skill_target: 1
+  - Name: Warming Up
+    skill_multiplier: 0
+    skill_type: 3
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 20
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 20
+    skill_type: 1
+    Skill_target: 0
     skill_stat: 0
   Enemy_Health: 60
   Enemy_Damage: 30

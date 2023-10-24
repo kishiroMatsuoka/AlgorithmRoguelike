@@ -8,17 +8,14 @@ public class Camera_zoomnode : MonoBehaviour
     [SerializeField] GameObject PreviewPrefab;
     [SerializeField] List<GameObject> NodeUI;
     //Chest
-    [SerializeField] GameObject RewardChest, PuzleChest;
-    [SerializeField] Transform SlotChest;
-    
+    [SerializeField] GameObject[] ChestNodeObjects;
     //Upgrade
+    //[SerializeField] GameObject[] UpgradeNodeObjects;
     [SerializeField] GameObject OptionsPanel, ResultsUpgrade, SlotOld, SlotNew;
     [SerializeField] TextMeshProUGUI StatsOld, StatsNew;
     int stat;
     //RandomEvent
-    [SerializeField] GameObject SlotPreview;
-    [SerializeField] GameObject TextResults, ItemResults, Arrow;
-    [SerializeField] TextMeshProUGUI TextTitle, RStatsNew, RStatsOld, GoldGained;
+    [SerializeField] GameObject[] RandomEventObjects;
     int statmod, money;
     ItemSystem.Items x;
     string npcname;
@@ -30,6 +27,7 @@ public class Camera_zoomnode : MonoBehaviour
     {
         Cam_main = Camera.main;
         Cam_second = GetComponent<Camera>();
+        pc = FindObjectOfType<Player_Controller>();
     }
     public void Update_Node(Vector3 node_coor)
     {
@@ -77,10 +75,17 @@ public class Camera_zoomnode : MonoBehaviour
         switch (option)
         {
             case 0:
-
+                pc._hp = pc._maxhp;
+                pc.CheckStatus();
                 break;
             case 1:
-
+                pc._hp += (int)(pc._maxhp*0.3f);
+                pc.CheckStatus();
+                foreach(NPC_Controller n in pc.party)
+                {
+                    n._health += (int)(n._maxHealth* 0.3f);
+                    n.CheckStatus();
+                }
                 break;
         }
     }
@@ -170,31 +175,35 @@ public class Camera_zoomnode : MonoBehaviour
         switch (e)
         {
             case 0://money
-                TextResults.SetActive(true);
-                GoldGained.gameObject.SetActive(true);
-                TextTitle.text = "Oro adquirido";
-                GoldGained.text = money + " Oro";
+                RandomEventObjects[0].SetActive(true);//resultscreen
+                RandomEventObjects[2].SetActive(true);//title
+                RandomEventObjects[2].GetComponent<TextMeshProUGUI>().text = "Oro adquirido";//title
+                RandomEventObjects[6].SetActive(true);//goldsprite
+                RandomEventObjects[6].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = money + " Oro";
+                
                 break;
-            case 1://hp
-                TextResults.SetActive(true);
-                Arrow.SetActive(true);
-                RStatsOld.gameObject.SetActive(true);
-                RStatsNew.gameObject.SetActive(true);
-                TextTitle.text = "Vida ha sido mmodificada";
-                RStatsOld.text = statmod + " Hp";
-                RStatsNew.text = pc._hp + " Hp";
+            case 1://hp\
+                RandomEventObjects[0].SetActive(true);//resultscreen
+                RandomEventObjects[2].SetActive(true);//title
+                RandomEventObjects[2].GetComponent<TextMeshProUGUI>().text = "Vida ha sido mmodificada";//title
+                RandomEventObjects[3].SetActive(true);//indicador
+                RandomEventObjects[4].SetActive(true);//oldtxt
+                RandomEventObjects[4].GetComponent<TextMeshProUGUI>().text = statmod + " Hp";//infotext
+                RandomEventObjects[5].SetActive(true);//newtxt
+                RandomEventObjects[5].GetComponent<TextMeshProUGUI>().text = pc._hp + " Hp";//infotext
                 break;
             case 2://random item
-                ItemResults.SetActive(true);
-                var item = Instantiate(PreviewPrefab, SlotPreview.transform);
-                item.GetComponent<LootPreview>().itemdata = x;
+                RandomEventObjects[1].SetActive(true);//resultscreen
+                var item = Instantiate(PreviewPrefab, RandomEventObjects[1].transform.GetChild(0).transform);
+                item.GetComponent<LootPreview>().SetName(x);
                 item.name = "NewItem";
                 break;
             case 3:
-                TextResults.SetActive(true);
-                GoldGained.gameObject.SetActive(true);
-                TextTitle.text = "Personaje se ha unido a la party";
-                GoldGained.text = npcname;
+                RandomEventObjects[0].SetActive(true);//resultscreen
+                RandomEventObjects[2].SetActive(true);//title
+                RandomEventObjects[2].GetComponent<TextMeshProUGUI>().text = "Personaje se ha unido a la party";//title
+                RandomEventObjects[9].SetActive(true);//npc sprite+name
+                RandomEventObjects[9].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = npcname;//text info
                 FindObjectOfType<MapUi>().UpdateParty();
                 break;
         }
@@ -206,13 +215,10 @@ public class Camera_zoomnode : MonoBehaviour
             Destroy(GameObject.Find("NewItem"));
         }
         catch { }
-        Arrow.SetActive(false);
-        GoldGained.gameObject.SetActive(false);
-        RStatsNew.gameObject.SetActive(false);
-        RStatsOld.gameObject.SetActive(false);
-        ItemResults.SetActive(false);
-        TextResults.SetActive(false);
-        gameObject.SetActive(false);
+        foreach(GameObject g in RandomEventObjects)
+        {
+            g.SetActive(false);
+        }
 
     }
     //Upgrade Functions
@@ -240,10 +246,10 @@ public class Camera_zoomnode : MonoBehaviour
                 }
                 var function = pc.General.GetRandomFunction(x.ItemRarity + 1);
                 var old = Instantiate(PreviewPrefab, SlotOld.transform);
-                old.GetComponent<LootPreview>().itemdata = x;
+                old.GetComponent<LootPreview>().SetName(x);
                 old.name = "OldItem";
                 var prev = Instantiate(PreviewPrefab, SlotNew.transform);
-                prev.GetComponent<LootPreview>().itemdata = function;
+                prev.GetComponent<LootPreview>().SetName(function);
                 prev.name = "NewItem";
                 pc._inventory.RemoveFunction(x);
                 pc._inventory.AddToInventory(function);
@@ -258,10 +264,10 @@ public class Camera_zoomnode : MonoBehaviour
                 }
                 var variable = pc.General.GetRandomVariable(y.ItemRarity + 1);
                 var oldvar = Instantiate(PreviewPrefab, SlotOld.transform);
-                oldvar.GetComponent<LootPreview>().itemdata = y;
+                oldvar.GetComponent<LootPreview>().SetName (y);
                 oldvar.name = "OldItem";
                 var prevvar = Instantiate(PreviewPrefab, SlotNew.transform);
-                prevvar.GetComponent<LootPreview>().itemdata = variable;
+                prevvar.GetComponent<LootPreview>().SetName (variable);
                 prevvar.name = "NewItem";
                 pc._inventory.RemoveVariable(y);
                 pc._inventory.AddToInventory(variable);
@@ -310,26 +316,24 @@ public class Camera_zoomnode : MonoBehaviour
     {
         if (x == 1)
         {
-            PuzleChest.SetActive(true);
+            ChestNodeObjects[0].SetActive(true);
         }
         else
         {
-            RewardChest.SetActive(true);
+            ChestNodeObjects[1].SetActive(true);
             var temp = FindObjectOfType<Player_Controller>();
             var item = temp.General.GetRandomItem(2);
             temp._inventory.AddToInventory(item);
-            var prev = Instantiate(PreviewPrefab, SlotChest);
-            prev.GetComponent<LootPreview>().itemdata = item;
-            prev.name = "rewardPreview";
+            var prev = Instantiate(PreviewPrefab, ChestNodeObjects[1].transform.GetChild(0).transform);
+            prev.GetComponent<LootPreview>().SetName(item);
+            prev.name = "rewardPreviewchest";
         }
     }
     public void ChestResetUi()
     {
-        GameObject x = GameObject.Find("rewardPreview");
+        GameObject x = GameObject.Find("rewardPreviewchest");
         if (x != null) { Destroy(x); }
-        RewardChest.SetActive(false);
-        PuzleChest.SetActive(false);
-        gameObject.SetActive(false);
+        foreach(GameObject g in ChestNodeObjects) { g.SetActive(false); }
     }
 
 }

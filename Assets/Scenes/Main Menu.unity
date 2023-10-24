@@ -659,7 +659,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &184933110
 GameObject:
@@ -820,7 +820,7 @@ GameObject:
   - component: {fileID: 227954725}
   - component: {fileID: 227954724}
   m_Layer: 5
-  m_Name: Image
+  m_Name: magesp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1262,7 +1262,7 @@ GameObject:
   - component: {fileID: 312533200}
   - component: {fileID: 312533199}
   m_Layer: 5
-  m_Name: Image
+  m_Name: berserkersp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1608,7 +1608,7 @@ GameObject:
   - component: {fileID: 405106648}
   - component: {fileID: 405106647}
   m_Layer: 5
-  m_Name: Image
+  m_Name: warriorsp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1684,7 +1684,7 @@ GameObject:
   - component: {fileID: 413675528}
   - component: {fileID: 413675527}
   m_Layer: 5
-  m_Name: Image
+  m_Name: thiefsp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4290,7 +4290,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1126289846
 MonoBehaviour:
@@ -4310,6 +4310,12 @@ MonoBehaviour:
   - {fileID: 330945991532719770, guid: 7a3734b0f0bd9e6408cfa18318794bd9, type: 3}
   - {fileID: 330945991532719770, guid: 6f3765fe439bf6c468fc2706f8c6f6ae, type: 3}
   - {fileID: 330945991532719770, guid: db32869955acb2245b92cf007a043b1f, type: 3}
+  classButtonsSprites:
+  - {fileID: 405106647}
+  - {fileID: 227954724}
+  - {fileID: 413675527}
+  - {fileID: 1712016847}
+  - {fileID: 312533199}
   Description: {fileID: 1735952086}
   BSprite:
   - {fileID: 21300000, guid: d3dfe14cc6af28f4fb6434d37b54a691, type: 3}
@@ -6103,7 +6109,7 @@ GameObject:
   - component: {fileID: 1712016848}
   - component: {fileID: 1712016847}
   m_Layer: 5
-  m_Name: Image
+  m_Name: tanksp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

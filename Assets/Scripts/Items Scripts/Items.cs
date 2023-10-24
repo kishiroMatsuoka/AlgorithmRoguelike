@@ -8,6 +8,7 @@ namespace ItemSystem
     [CreateAssetMenu(fileName = "New Item", menuName = "Items/Default Item")]
     public class Items : ScriptableObject
     {
+        public Sprite ItemSprite;
         public string ItemName;
         [TextArea(10, 15)]
         public string ItemDescription;
@@ -18,7 +19,8 @@ namespace ItemSystem
     {
         Equipment,
         Variable,
-        Function
+        Function,
+        Consumible
     }
     public enum EffectType
     {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AoE explosion
   m_EditorClassIdentifier: 
   ItemName: Fireball
-  ItemDescription: Deals _ magic dmg to all enemies
+  ItemDescription: "Hace _ da\xF1o magico a todos los enemigos."
   ItemRarity: 3
   ItemCost: 2
   ItemType: 2

@@ -6,12 +6,19 @@ using TMPro;
 public class LootPreview : MonoBehaviour
 {
     public ItemSystem.Items itemdata;
-    [SerializeField] GameObject itemname,description,text;
+    [SerializeField] GameObject itemname,iSprite,description,text;
     //info variables
     bool desc_updated = false;
     private float timer = 0f;
     private readonly float timerend = 1f;
     bool isHovering = false;
+    public void SetName(ItemSystem.Items item)
+    {
+        itemdata = item;
+        itemname.GetComponent<TextMeshProUGUI>().text = itemdata.ItemName;
+        //iSprite.GetComponent<UnityEngine.UI.Image>().sprite = itemdata.ItemSprite;
+
+    }
     private void Update()
     {
         if (isHovering)
@@ -34,10 +41,6 @@ public class LootPreview : MonoBehaviour
                 timer += Time.deltaTime;
             }
         }
-    }
-    public void ChangeName()
-    {
-        itemname.GetComponent<TextMeshProUGUI>().text = itemdata.ItemName;
     }
     public void Hovering()
     {

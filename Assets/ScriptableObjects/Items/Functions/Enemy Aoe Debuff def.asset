@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy Aoe Debuff def
   m_EditorClassIdentifier: 
   ItemName: Defence break mist
-  ItemDescription: Reduces all enemies defense by %_.
+  ItemDescription: Reduce la defensa del enemigo en un %_.
   ItemRarity: 5
   ItemCost: 2
   ItemType: 2

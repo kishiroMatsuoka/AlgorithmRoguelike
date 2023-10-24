@@ -5,7 +5,7 @@ using TMPro;
 
 public class Combat_controller : MonoBehaviour 
 {
-    public GameObject fun_prefab, var_prefab, cons_prefab, enemy_parent
+    public GameObject fun_prefab, var_prefab, cons_prefab, FloatingText, enemy_parent
         , itemdesc, CombatResultScreen;
     public List<Actions> ActionsInBoard = new List<Actions>();
     public int e_dmg = 0, e_def = 0, turn_counter, Max_cost, Current_cost, e_cost;
@@ -335,11 +335,6 @@ public class Combat_controller : MonoBehaviour
             count++;
         }
     }
-}
-public class StatModifiers
-{
-    int value;
-    int duration;
 }
 [System.Serializable]
 public class Actions

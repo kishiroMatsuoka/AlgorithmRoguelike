@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy Debuff def
   m_EditorClassIdentifier: 
   ItemName: Defense break
-  ItemDescription: Reduces enemy defense by %_.
+  ItemDescription: Reduce la defensa del enemigo en un %_.
   ItemRarity: 2
   ItemCost: 1
   ItemType: 2

@@ -36,8 +36,7 @@ public class StoreController : MonoBehaviour
             {
                 var t = Instantiate(LootPrefab, slot);
                 t.GetComponent<ItemStore>().Own = true;
-                t.GetComponent<LootPreview>().itemdata = i;
-                t.GetComponent<LootPreview>().ChangeName();
+                t.GetComponent<LootPreview>().SetName(i);
             }
         }
         
@@ -55,8 +54,7 @@ public class StoreController : MonoBehaviour
         {
             var i = pc.Store.GetRandomItem(Random.Range(0, 10));
             var t = Instantiate(LootPrefab, slot);
-            t.GetComponent<LootPreview>().itemdata = i;
-            t.GetComponent<LootPreview>().ChangeName();
+            t.GetComponent<LootPreview>().SetName(i);
         }
     }
 

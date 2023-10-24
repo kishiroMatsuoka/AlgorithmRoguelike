@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e796b5e01d3375a4696698173933a67d, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
+  sprite: {fileID: -584267552, guid: 0a3539cec630cd14f812a6a7f98dabea, type: 3}
   p_class: 0
   hp: 250
   def: 30

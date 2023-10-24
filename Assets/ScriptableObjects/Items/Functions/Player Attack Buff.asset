@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Attack Buff
   m_EditorClassIdentifier: 
   ItemName: Atk Up
-  ItemDescription: Increases player dmg by _.
+  ItemDescription: Aumenta es ataque del jugador en %_ durante el turno.
   ItemRarity: 2
   ItemCost: 1
   ItemType: 2

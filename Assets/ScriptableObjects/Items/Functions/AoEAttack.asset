@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AoEAttack
   m_EditorClassIdentifier: 
   ItemName: Slash
-  ItemDescription: Deals _ physical dmg to all enemies
+  ItemDescription: "Hace _ da\xF1o fisico a todos los enemigos."
   ItemRarity: 3
   ItemCost: 2
   ItemType: 2

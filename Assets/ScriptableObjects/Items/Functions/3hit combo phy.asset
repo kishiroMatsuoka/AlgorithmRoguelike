@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3hit combo phy
   m_EditorClassIdentifier: 
   ItemName: 3Hit Combo
-  ItemDescription: Deals _ physical dmg thrice to 1 enemy
+  ItemDescription: "Hace _ da\xF1o fisico 3 veces a un enemigo."
   ItemRarity: 3
   ItemCost: 3
   ItemType: 2

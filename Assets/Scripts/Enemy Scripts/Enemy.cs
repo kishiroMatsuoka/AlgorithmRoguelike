@@ -123,6 +123,7 @@ public class Enemy : MonoBehaviour
             {
                 //
             }
+            SpawnText(skill.Name);
             last_used = null;
         }
         else
@@ -141,6 +142,7 @@ public class Enemy : MonoBehaviour
                     {
                         pc.PartyRecieveDmg(CalculateDmg(skill), true);
                     }
+                    SpawnText(skill.Name);
                     break;
                 case Skills.SkillType.Buff:
                     print("Enemigo usa Buff Skill");
@@ -160,6 +162,7 @@ public class Enemy : MonoBehaviour
                     {
                         //
                     }
+                    SpawnText(skill.Name);
                     break;
                 case Skills.SkillType.Debuff:
                     print("Enemigo usa debuf");
@@ -177,6 +180,7 @@ public class Enemy : MonoBehaviour
                                 cc.StatModifier(skill.skill_multiplier, false, 2);
                                 break;
                         }
+                        SpawnText(skill.Name);
                     }
                     else
                     {
@@ -192,10 +196,12 @@ public class Enemy : MonoBehaviour
                                 cc.StatModifier(skill.skill_multiplier, false, 2);
                                 break;
                         }
+                        SpawnText(skill.Name);
                     }
                     break;
                 case Skills.SkillType.PreparationAttack:
                     Debug.Log("Enemigo Prepara un Ataque");
+                    SpawnText(skill.Name);
                     last_used = skill;
                     break;
                 case Skills.SkillType.FinalAttack:
@@ -204,6 +210,13 @@ public class Enemy : MonoBehaviour
             }
         }
         if (Recursion) { BossBonusDmg += 2; }
+    }
+    void SpawnText(string skillname)
+    {
+        Vector3 pos = gameObject.transform.position;
+        pos.y += 1f; 
+        var ft1 = Instantiate(cc.FloatingText, pos, Quaternion.identity);
+        ft1.GetComponent<AutoDeleteText>()._text.text = skillname;
     }
 }
 
