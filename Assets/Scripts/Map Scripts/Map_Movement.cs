@@ -10,6 +10,7 @@ public class Map_Movement : MonoBehaviour
     MapUi mu;
     SceneControl sc;
     Node noderef;
+    [SerializeField] bool BossNode = false;
     private void Start()
     {
         cam_comp = GameObject.FindGameObjectWithTag("2nd Cam").GetComponent<Camera_zoomnode>();
@@ -19,6 +20,7 @@ public class Map_Movement : MonoBehaviour
     }
     private void Update()
     {
+        noderef = GetComponent<NodeContainer>().Nodeinfo;
         if (sr.enabled == false && noderef.Layer == (sc.CurrentNode.Layer+1))
         {
             foreach(Node_Conection nc in sc.CurrentNode.Node_Conections)
@@ -26,7 +28,10 @@ public class Map_Movement : MonoBehaviour
                 if(nc.Conection_Child == noderef)
                 {
                     sr.enabled = true;
-                    unk.enabled = false;
+                    if (!BossNode)
+                    {
+                        unk.enabled = false;
+                    }
                     break;
                 }
             }

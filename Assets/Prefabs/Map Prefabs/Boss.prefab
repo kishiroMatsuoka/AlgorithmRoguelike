@@ -188,6 +188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 1366679060537272790}
+  unk: {fileID: 0}
+  BossNode: 1
 --- !u!114 &1150649798547745674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,14 +203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: {fileID: 477954487546731396}
-  Nodeinfo:
-    name: 
-    icon: {fileID: 0}
-    N_Type: 0
-    Lvl: 0
-    Node_Enemies: []
-    Node_Conections: []
-    Layer: 0
 --- !u!58 &-2134158454346932095
 CircleCollider2D:
   m_ObjectHideFlags: 0

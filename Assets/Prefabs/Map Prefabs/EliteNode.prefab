@@ -460,14 +460,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: {fileID: 3606226425895119883}
-  Nodeinfo:
-    name: 
-    icon: {fileID: 0}
-    N_Type: 0
-    Lvl: 0
-    Node_Enemies: []
-    Node_Conections: []
-    Layer: 0
 --- !u!58 &-6074391222522481613
 CircleCollider2D:
   m_ObjectHideFlags: 0

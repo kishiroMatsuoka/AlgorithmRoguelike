@@ -19,14 +19,14 @@ public class GameSettings : MonoBehaviour
         Debug.Log("Is Called, Index: "+index);
         switch (index)
         {
-            case 0:
-                Screen.SetResolution(1920, 1080, false);
-                break;
             case 1:
-                Screen.SetResolution(1080, 720, false);
+                Screen.SetResolution(1920, 1080, true);
                 break;
             case 2:
-                Screen.SetResolution(640, 480, false);
+                Screen.SetResolution(1080, 720, true);
+                break;
+            case 3:
+                Screen.SetResolution(640, 480, true);
                 break;
         }
         
