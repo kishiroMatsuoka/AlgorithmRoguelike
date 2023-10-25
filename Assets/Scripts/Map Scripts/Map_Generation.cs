@@ -276,7 +276,7 @@ public class Map_Generation : MonoBehaviour
             node.N_Type = NodeType.Boss;
             node.icon = icons[4];
             node.name = icons[4].name;
-            node.Node_Enemies.Add(enemylist[Random.Range(0, bosses.Length)]);
+            node.Node_Enemies.Add(bosses[Random.Range(0, bosses.Length)]);
             for (int x = 0; x < 2; x++)
             {
                 node.Node_Enemies.Add(enemylist[Random.Range(0, enemylist.Length)]);
