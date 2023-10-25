@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 using Map;
 using TMPro;
 
 public class SceneControl : MonoBehaviour
 {
-    [SerializeField] GameObject Store, Map, Combat, PauseMenu, EndScreen, LevelFinish;
+    [SerializeField] List<Transform> CombatTransforms;
+    [SerializeField] GameObject Store, Map, Combat, PauseMenu, EndScreen, LevelFinish, CombatEnd;
     [SerializeField] TextMeshProUGUI Score,FinalScore;
     public GameObject[] npc_pre;
     public bool BossDead=false;
@@ -73,6 +75,14 @@ public class SceneControl : MonoBehaviour
     public void ExitCombat()
     {
         Combat.SetActive(false);
+        CombatEnd.SetActive(false);
+        foreach(Transform ct in CombatTransforms)
+        {
+            foreach(Transform tc in ct)
+            {
+                Destroy(tc.gameObject);
+            }
+        }
         Map.SetActive(true);
         FindObjectOfType<Camera_zoomnode>().Change_Camera(0);
     }

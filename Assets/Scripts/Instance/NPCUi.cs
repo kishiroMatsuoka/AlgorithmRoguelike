@@ -29,6 +29,14 @@ public class NPCUi : MonoBehaviour
     {
         currenthp = controller._health;
         maxhp = controller._maxHealth;
+        float per = (((currenthp * 100.0f) / maxhp) / 100.0f);
+        _hpcounter.text = per+" %";
+    }
+    /*
+    public void UpdateHealth()
+    {
+        currenthp = controller._health;
+        maxhp = controller._maxHealth;
         float hppercentage = ((currenthp * 100) / maxhp) / 100.0f;
         if (UsePercentage)
         {
@@ -51,6 +59,7 @@ public class NPCUi : MonoBehaviour
             StartCoroutine(UpdateRedBar(hppercentage));
         }
     }
+    */
     public void test(int dmg)
     {
         controller._health -= dmg;

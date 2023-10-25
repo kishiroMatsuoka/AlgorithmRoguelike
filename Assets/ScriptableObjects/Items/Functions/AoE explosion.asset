@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1484c44dd1ebc40b8d8a706e5a6642, type: 3}
   m_Name: AoE explosion
   m_EditorClassIdentifier: 
+  ItemSprite: {fileID: 0}
   ItemName: Fireball
   ItemDescription: "Hace _ da\xF1o magico a todos los enemigos."
   ItemRarity: 3

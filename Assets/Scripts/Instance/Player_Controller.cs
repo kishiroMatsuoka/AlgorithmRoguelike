@@ -78,7 +78,8 @@ public class Player_Controller : MonoBehaviour
         {
             int tempdef = _def + FindObjectOfType<Combat_controller>().e_def;
             FindObjectOfType<Combat_controller>().DmgScore(effect - tempdef);
-            if((effect - tempdef) > 5)
+            FindObjectOfType<Combat_controller>().PlayerFloatingDmg(effect - tempdef);
+            if ((effect - tempdef) > 5)
             {
                 _hp -= (effect - tempdef);
             }

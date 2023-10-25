@@ -5,7 +5,7 @@ using TMPro;
 
 public class Combat_controller : MonoBehaviour 
 {
-    public GameObject fun_prefab, var_prefab, cons_prefab, FloatingText, enemy_parent
+    public GameObject fun_prefab, var_prefab, cons_prefab, FloatingText,PlayerSpritePos, enemy_parent
         , itemdesc, CombatResultScreen;
     public List<Actions> ActionsInBoard = new List<Actions>();
     public int e_dmg = 0, e_def = 0, turn_counter, Max_cost, Current_cost, e_cost;
@@ -35,33 +35,40 @@ public class Combat_controller : MonoBehaviour
         if(c_dmg >= 50) { combat_score -= 100;c_dmg = 0; }
     }
     public void AdvanceTurn(){
-        //Update turn counter
-        turn_counter++;
-        turn_text.text = turn_counter.ToString();
-        //play board
-        foreach (Actions action in ActionsInBoard) {
-            if (!StopCombat)
-            {
-                CodeToExecute(action);
-            }
-        }
-        StopCombat =  CheckDead();
-        if (!CombatResultScreen.activeSelf  && !StopCombat)
+        if (ActionsInBoard.Count > 0)
         {
-            //enemy turn
-            foreach (Enemy x in n_enemy) {
-                if (!x.IsDead) {
-                    print("Enemigo Elige Skill");
-                    x.UseSkill(pc); }
+            //Update turn counter
+            turn_counter++;
+            turn_text.text = turn_counter.ToString();
+            //play board
+            foreach (Actions action in ActionsInBoard)
+            {
+                if (!StopCombat)
+                {
+                    CodeToExecute(action);
+                }
             }
+            StopCombat = CheckDead();
+            if (!CombatResultScreen.activeSelf && !StopCombat)
+            {
+                //enemy turn
+                foreach (Enemy x in n_enemy)
+                {
+                    if (!x.IsDead)
+                    {
+                        print("Enemigo Elige Skill");
+                        x.UseSkill(pc);
+                    }
+                }
+            }
+            //remove buffs
+            e_dmg = 0;
+            e_def = 0;
+            e_cost = 0;
+            UpdateCostMod();
+            //returns functions to inventory
+            Board.GetComponent<Attach_Zone>().TurnFinished();
         }
-        //remove buffs
-        e_dmg = 0;
-        e_def = 0;
-        e_cost = 0;
-        UpdateCostMod();
-        //returns functions to inventory
-        Board.GetComponent<Attach_Zone>().TurnFinished();
     }
     public bool CheckCost(int card_cost)
     {
@@ -94,7 +101,14 @@ public class Combat_controller : MonoBehaviour
     }
     bool CheckDead()
     {
+        List<GameObject> objects = new List<GameObject>();
+        foreach(Enemy en in n_enemy.FindAll(x => x.IsDead == true))
+        {
+            objects.Add(en.gameObject);
+        }
         n_enemy.RemoveAll(x => x.IsDead == true);
+        //for(int i = objects.Count - 1; i >= 0; i--){Destroy(objects[i]);}
+        for (int i = 0; i < objects.Count; i++) { Destroy(objects[i]); }
         if (n_enemy.Count == 0)
         {
             CombatResultScreen.SetActive(true);
@@ -321,8 +335,16 @@ public class Combat_controller : MonoBehaviour
         }
         foreach (GameObject x in pc._inventory.used_consumibles)
         {
-            Instantiate(x, con_inv);
+            //Instantiate(x, con_inv);
         }
+    }
+    public void PlayerFloatingDmg(int dmg)
+    {
+        Vector3 pos = PlayerSpritePos.transform.position;
+        pos.y += .5f;
+        var ft1 = Instantiate(FloatingText, pos, Quaternion.identity);
+        ft1.GetComponent<AutoDeleteText>()._text.color = Color.red;
+        ft1.GetComponent<AutoDeleteText>()._text.text = dmg.ToString();
     }
     void SpawnEnemies()
     {

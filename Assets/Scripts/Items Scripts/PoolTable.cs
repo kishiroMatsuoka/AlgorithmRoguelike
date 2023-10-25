@@ -6,38 +6,54 @@ using ItemSystem;
 [CreateAssetMenu(fileName ="new itempool",menuName = "CreateItemPool")]
 public class PoolTable : ScriptableObject
 {
-    [SerializeField] List<Items> Pool;
-
-    public Items GetRandomFunction(int rarity)
+    [SerializeField] List<Function> PoolFunctions = new List<Function>();
+    [SerializeField] List<Variable> PoolVariables = new List<Variable>();
+    [SerializeField] List<Consumibles> PoolConsumibles = new List<Consumibles>();
+    public Function GetRandomFunction(int rarity)
     {
-        var temp = Pool.FindAll(x => x is Function && x.ItemRarity == rarity);
-        return temp[Random.Range(0, temp.Count)];
-    }
-    public Items GetRandomVariable(int rarity)
-    {
-        var temp = Pool.FindAll(x => x is Variable && x.ItemRarity == rarity);
-        return temp[Random.Range(0, temp.Count)];
-    }
-    public Items GetRandomItem(int lowerRarity)
-    {
-        List<Items> temp = new List<Items>();
-        int roll = Random.Range(lowerRarity, 10);
-        foreach(Items i in Pool)
+        var temp = PoolFunctions.FindAll(x => x.ItemRarity <= rarity);
+        if (temp.Count > 0)
         {
-            if (i.ItemRarity <= roll)
-            {
-                temp.Add(i);
-            }
-        }
-        if(temp.Count > 0)
-        {
-            return temp[Random.Range(0,temp.Count)];
+            return temp[Random.Range(0, temp.Count)];
         }
         else
         {
             return null;
         }
-        
+    }
+    public Variable GetRandomVariable(int rarity)
+    {
+        var temp = PoolVariables.FindAll(x => x.ItemRarity <= rarity);
+        if (temp.Count > 0)
+        {
+            return temp[Random.Range(0, temp.Count)];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public Consumibles GetRandomConsumibles(int rarity)
+    {
+        var temp = PoolConsumibles.FindAll(x => x.ItemRarity <= rarity);
+        if (temp.Count > 0)
+        {
+            return temp[Random.Range(0, temp.Count)];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public Items GetRandomItem(int lowerRarity)
+    {
+        return Random.Range(0, 3) switch
+        {
+            0 => GetRandomFunction(lowerRarity),
+            1 => GetRandomVariable(lowerRarity),
+            2 => GetRandomConsumibles(lowerRarity),
+            _ => null,
+        };
     }
 
 }

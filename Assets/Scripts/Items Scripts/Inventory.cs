@@ -57,32 +57,32 @@ public class Inventory : ScriptableObject
     }
     public void AddToInventory(Items target)
     {
-        if(target is Function)
+        if(target is Function function)
         {
-            functions.Add((Function)target);
+            functions.Add(function);
         }
-        else if(target is Variable)
+        else if(target is Variable variable)
         {
-            variables.Add((Variable)target);
+            variables.Add(variable);
         }
-        else if (target is Equipment)
+        else if (target is Equipment equipment1)
         {
-            equipment.Add((Equipment)target);
+            equipment.Add(equipment1);
         }
     }
     public void RemoveFromInventory(Items target)
     {
-        if (target is Function)
+        if (target is Function function)
         {
-            functions.Remove((Function)target);
+            functions.Remove(function);
         }
-        else if (target is Variable)
+        else if (target is Variable variable)
         {
-            variables.Remove((Variable)target);
+            variables.Remove(variable);
         }
-        else if (target is Equipment)
+        else if (target is Equipment equipment1)
         {
-            equipment.Remove((Equipment)target);
+            equipment.Remove(equipment1);
         }
     }
 }

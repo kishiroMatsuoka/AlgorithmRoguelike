@@ -158,7 +158,7 @@ public class Camera_zoomnode : MonoBehaviour
                 while (true)
                 {
                     if (x != null) { break; }
-                    else { x = pc.General.GetRandomFunction(Random.Range(0, 10)); }
+                    else { x = pc.General.GetRandomItem(Random.Range(0, 10)); }
                 }
                 break;
             case 3://Get Random Companion
@@ -202,8 +202,8 @@ public class Camera_zoomnode : MonoBehaviour
                 RandomEventObjects[0].SetActive(true);//resultscreen
                 RandomEventObjects[2].SetActive(true);//title
                 RandomEventObjects[2].GetComponent<TextMeshProUGUI>().text = "Personaje se ha unido a la party";//title
-                RandomEventObjects[9].SetActive(true);//npc sprite+name
-                RandomEventObjects[9].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = npcname;//text info
+                RandomEventObjects[7].SetActive(true);//npc sprite+name
+                RandomEventObjects[7].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = npcname;//text info
                 FindObjectOfType<MapUi>().UpdateParty();
                 break;
         }
@@ -322,7 +322,18 @@ public class Camera_zoomnode : MonoBehaviour
         {
             ChestNodeObjects[1].SetActive(true);
             var temp = FindObjectOfType<Player_Controller>();
-            var item = temp.General.GetRandomItem(2);
+            var item = temp.General.GetRandomItem(5);
+            while (true)
+            {
+                if(item != null)
+                {
+                    break;
+                }
+                else
+                {
+                    item = temp.General.GetRandomItem(5);
+                }
+            }
             temp._inventory.AddToInventory(item);
             var prev = Instantiate(PreviewPrefab, ChestNodeObjects[1].transform.GetChild(0).transform);
             prev.GetComponent<LootPreview>().SetName(item);

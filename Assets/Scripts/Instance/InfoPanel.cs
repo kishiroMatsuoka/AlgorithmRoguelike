@@ -21,8 +21,8 @@ public class InfoPanel : MonoBehaviour
         int counter = 0;
         foreach(NPC_Controller x in pc.party)
         {
-            npcuis[counter].transform.parent.gameObject.SetActive(true);
             npcuis[counter].controller = x;
+            npcuis[counter].transform.parent.gameObject.SetActive(true);
             npcuimages[counter].sprite = x._npcSprite;
             counter++;
         }

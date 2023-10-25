@@ -13,7 +13,7 @@ public class EnemyHpBar : MonoBehaviour
     {
         maxhp = enemyref._enemyhp;
         hpcounter.text = maxhp + " Hp";
-        health.fillAmount = 1f;
+        //health.fillAmount = 1f;
     }
     private void Update()
     {
@@ -22,6 +22,12 @@ public class EnemyHpBar : MonoBehaviour
             UpdateHealth();
         }
     }
+    void UpdateHealth()
+    {
+        int current = enemyref._enemyhp;
+        hpcounter.text = current + " Hp";
+    }
+    /*
     public void UpdateHealth()
     {
         int current = enemyref._enemyhp;
@@ -44,4 +50,5 @@ public class EnemyHpBar : MonoBehaviour
             health.fillAmount = target;
         }
     }
+    */
 }
