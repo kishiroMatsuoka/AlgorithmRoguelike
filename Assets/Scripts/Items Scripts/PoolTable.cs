@@ -45,13 +45,13 @@ public class PoolTable : ScriptableObject
             return null;
         }
     }
-    public Items GetRandomItem(int lowerRarity)
+    public Items GetRandomItem(int maxRarity)
     {
         return Random.Range(0, 3) switch
         {
-            0 => GetRandomFunction(lowerRarity),
-            1 => GetRandomVariable(lowerRarity),
-            2 => GetRandomConsumibles(lowerRarity),
+            0 => GetRandomFunction(maxRarity),
+            1 => GetRandomVariable(maxRarity),
+            2 => GetRandomConsumibles(maxRarity),
             _ => null,
         };
     }

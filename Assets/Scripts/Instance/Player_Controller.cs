@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     //System Access
+    public string PlayerRut;
     public PoolTable Store, Combat, General;
     [HideInInspector] public List<NPC_Controller> party = new List<NPC_Controller>();
     public Inventory _inventory;

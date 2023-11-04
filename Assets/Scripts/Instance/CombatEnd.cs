@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class CombatEnd : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class CombatEnd : MonoBehaviour
             cc.turn_counter+" Turnos\n"+
             cc.totaldmg +" Daño total recivido"
             ;
+        StartCoroutine(cc.MarkCombatEnd());
         if(Slot1.gameObject.activeSelf || Slot2.gameObject.activeSelf)
         {
             foreach(Transform x in Slot1) { Destroy(x); }
@@ -37,7 +39,12 @@ public class CombatEnd : MonoBehaviour
     void GetLoot()
     {
         Slot1.gameObject.SetActive(true);
-        var item1 = pc.Combat.GetRandomItem(0);
+        var item1 = pc.Combat.GetRandomItem(6);
+        while(true)
+        {
+            if(item1 != null){break;}
+            else { item1 = pc.Combat.GetRandomItem(6); }
+        }
         var x = Instantiate(Lootprefab, Slot1);
         x.transform.localPosition = Vector3.zero;
         x.GetComponent<LootPreview>().SetName(item1);
@@ -46,7 +53,12 @@ public class CombatEnd : MonoBehaviour
         if (Random.value > .7f)
         {
             Slot2.gameObject.SetActive(true);
-            var item2 = pc.Combat.GetRandomItem(0);
+            var item2 = pc.Combat.GetRandomItem(6);
+            while (true)
+            {
+                if (item2 != null) { break; }
+                else { item2 = pc.Combat.GetRandomItem(6); }
+            }
             var y = Instantiate(Lootprefab, Slot2);
             y.transform.localPosition = Vector3.zero;
             y.GetComponent<LootPreview>().SetName(item2);
@@ -55,5 +67,4 @@ public class CombatEnd : MonoBehaviour
 
         }
     }
-
 }

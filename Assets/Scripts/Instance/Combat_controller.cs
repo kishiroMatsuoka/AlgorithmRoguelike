@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using ItemSystem;
 using TMPro;
+using System.Collections;
 
 public class Combat_controller : MonoBehaviour 
 {
@@ -39,6 +41,7 @@ public class Combat_controller : MonoBehaviour
         {
             //Update turn counter
             turn_counter++;
+            combat_score -= 50;
             turn_text.text = turn_counter.ToString();
             //play board
             foreach (Actions action in ActionsInBoard)
@@ -109,6 +112,7 @@ public class Combat_controller : MonoBehaviour
         n_enemy.RemoveAll(x => x.IsDead == true);
         //for(int i = objects.Count - 1; i >= 0; i--){Destroy(objects[i]);}
         for (int i = 0; i < objects.Count; i++) { Destroy(objects[i]); }
+        objects.Clear();
         if (n_enemy.Count == 0)
         {
             CombatResultScreen.SetActive(true);
@@ -356,6 +360,18 @@ public class Combat_controller : MonoBehaviour
             temp.transform.localPosition = new Vector3(count * 1.5f, 0f, 0f);
             count++;
         }
+    }
+
+    private string URL =
+    "https://docs.google.com/forms/u/0/d/e/1FAIpQLSffsKRmzTO-xS7cfq9dw66gCHljU-0mgWbbEQjMofKPAoK4_g/formResponse";
+    public IEnumerator MarkCombatEnd()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.432945298", pc.PlayerRut);//rut
+        form.AddField("entry.313003536", "1");//action
+        form.AddField("entry.1871614421", combat_score + ", turnos: " + turn_counter);//description
+        UnityWebRequest www = UnityWebRequest.Post(URL, form);
+        yield return www.SendWebRequest();
     }
 }
 [System.Serializable]

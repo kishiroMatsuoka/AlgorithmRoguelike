@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Map;
 using TMPro;
+using System.Collections;
 
 public class SceneControl : MonoBehaviour
 {
@@ -28,7 +30,10 @@ public class SceneControl : MonoBehaviour
         if (BossDead)
         {
             LevelFinish.SetActive(true);
-            FinalScore.text = FindObjectOfType<Player_Controller>().Score.ToString();
+            var pc = FindObjectOfType<Player_Controller>();
+            StartCoroutine(MarkGameEnd(pc));
+            FinalScore.text = pc.Score.ToString();
+
         }
     }
     public void MainMenu()
@@ -85,5 +90,25 @@ public class SceneControl : MonoBehaviour
         }
         Map.SetActive(true);
         FindObjectOfType<Camera_zoomnode>().Change_Camera(0);
+    }
+    private string URL =
+    "https://docs.google.com/forms/u/0/d/e/1FAIpQLSffsKRmzTO-xS7cfq9dw66gCHljU-0mgWbbEQjMofKPAoK4_g/formResponse";
+    IEnumerator MarkGameEnd(Player_Controller p)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.313003536", "4");//action
+        form.AddField("entry.1871614421", "FinalScore: "+p.Score);//description
+        UnityWebRequest www = UnityWebRequest.Post(URL, form);
+        yield return www.SendWebRequest();
+    }
+    IEnumerator MarkGameDead(Player_Controller p)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.313003536", "3");//action
+        form.AddField("entry.1871614421", "FinalScore: " + p.Score+", Muerte en: "+CurrentNode.name);//description
+        UnityWebRequest www = UnityWebRequest.Post(URL, form);
+        yield return www.SendWebRequest();
     }
 }
