@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ItemBS : MonoBehaviour, IDropHandler
 {
+    [SerializeField] StoreController sc;
     Player_Controller pc;
     public bool Sale;
     void Start()
@@ -21,6 +22,7 @@ public class ItemBS : MonoBehaviour, IDropHandler
                 pc.money += b.price;
                 var i = eventData.pointerDrag.GetComponent<LootPreview>().itemdata;
                 pc._inventory.RemoveFromInventory(i);
+                sc.Ventas++;
                 Destroy(eventData.pointerDrag);
             }
         }
@@ -34,6 +36,7 @@ public class ItemBS : MonoBehaviour, IDropHandler
                     pc.money -= b.price;
                     var i = eventData.pointerDrag.GetComponent<LootPreview>().itemdata;
                     pc._inventory.AddToInventory(i);
+                    sc.Compras++;
                     Destroy(eventData.pointerDrag);
                 }
             }

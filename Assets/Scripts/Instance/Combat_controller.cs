@@ -115,11 +115,11 @@ public class Combat_controller : MonoBehaviour
         objects.Clear();
         if (n_enemy.Count == 0)
         {
-            CombatResultScreen.SetActive(true);
             if (FindObjectOfType<SceneControl>().CurrentNode.N_Type == Map.NodeType.Boss)
             {
                 FindObjectOfType<SceneControl>().BossDead = true;
             }
+            CombatResultScreen.SetActive(true);
             return true;
         }
         return false;

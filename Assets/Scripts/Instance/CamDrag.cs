@@ -11,7 +11,10 @@ public class CamDrag : MonoBehaviour
     {
         cam = GetComponent<Camera>();
     }
-
+    public void ResetPosition()
+    {
+        transform.position = new Vector3(5.36f,0f,-10f);
+    }
     void Update()
     {
         if (cam.enabled)

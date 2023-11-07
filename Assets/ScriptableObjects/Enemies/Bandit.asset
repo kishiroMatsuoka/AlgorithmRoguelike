@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d019e6a370311b49b6e89a7a4af3ff0, type: 3}
+  m_Name: Bandit
+  m_EditorClassIdentifier: 
+  Enemy_Name: Basic Berserker
+  Enemy_Skills:
+  - Name: Warming Up
+    skill_multiplier: 0
+    skill_type: 3
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Warming Up
+    skill_multiplier: 0
+    skill_type: 3
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Warming Up
+    skill_multiplier: 0
+    skill_type: 3
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 30
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Attack Up
+    skill_multiplier: 35
+    skill_type: 1
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Quick Draw
+    skill_multiplier: 90
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Quick Draw
+    skill_multiplier: 90
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Quick Draw
+    skill_multiplier: 90
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Quick Draw
+    skill_multiplier: 90
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Quick Draw
+    skill_multiplier: 90
+    skill_type: 0
+    Skill_target: 0
+    skill_stat: 0
+  - Name: MultiShoot
+    skill_multiplier: 75
+    skill_type: 0
+    Skill_target: 1
+    skill_stat: 0
+  - Name: MultiShoot
+    skill_multiplier: 75
+    skill_type: 0
+    Skill_target: 1
+    skill_stat: 0
+  - Name: MultiShoot
+    skill_multiplier: 75
+    skill_type: 0
+    Skill_target: 1
+    skill_stat: 0
+  - Name: MultiShoot
+    skill_multiplier: 75
+    skill_type: 0
+    Skill_target: 1
+    skill_stat: 0
+  - Name: Elemental Arrow
+    skill_multiplier: 180
+    skill_type: 4
+    Skill_target: 0
+    skill_stat: 0
+  - Name: Arrow Rain
+    skill_multiplier: 150
+    skill_type: 4
+    Skill_target: 1
+    skill_stat: 0
+  Enemy_Health: 30
+  Enemy_Damage: 20
+  Enemy_Defense: 0
+  Enemy_Class: 4

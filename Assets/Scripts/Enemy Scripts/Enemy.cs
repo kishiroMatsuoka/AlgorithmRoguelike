@@ -116,12 +116,12 @@ public class Enemy : MonoBehaviour
             Skills skill = temp[Random.Range(0, temp.Count)];
             if (skill.Skill_target == Skills.TargetType.Single)
             {
-                pc.HpModifier(CalculateDmg(skill), false);
+                pc.PartyRecieveDmg(CalculateDmg(skill), false);
                 dmg_effect = 0;
             }
             else
             {
-                //
+                pc.PartyRecieveDmg(CalculateDmg(skill), true);
             }
             SpawnText(skill.Name);
             last_used = null;
@@ -160,7 +160,17 @@ public class Enemy : MonoBehaviour
                     }
                     else
                     {
-                        //
+                        foreach(Enemy e in cc.n_enemy.FindAll(x =>!x.IsDead))
+                        {
+                            if (skill.skill_stat == Skills.StatTarget.Attack)
+                            {
+                                AttackEffect(skill.skill_multiplier, true);
+                            }
+                            else
+                            {
+                                DefEffect(skill.skill_multiplier, true);
+                            }
+                        }
                     }
                     SpawnText(skill.Name);
                     break;
@@ -196,6 +206,7 @@ public class Enemy : MonoBehaviour
                                 cc.StatModifier(skill.skill_multiplier, false, 2);
                                 break;
                         }
+                        pc.PartyEffect(skill.skill_stat,skill.skill_multiplier, false);
                         SpawnText(skill.Name);
                     }
                     break;

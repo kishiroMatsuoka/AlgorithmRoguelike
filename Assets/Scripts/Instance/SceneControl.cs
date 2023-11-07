@@ -25,7 +25,7 @@ public class SceneControl : MonoBehaviour
             PauseMenu.SetActive(true);
         }
     }
-    public void CheckEndLevel()
+    void CheckEndLevel()
     {
         if (BossDead)
         {
@@ -39,12 +39,14 @@ public class SceneControl : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1;
+        StartCoroutine(MarkGameEnd(FindObjectOfType<Player_Controller>()));
         Destroy(GameObject.Find("Player"));
         SceneManager.LoadScene(0);
     }
     public void GameOver(int score)
     {
-        Time.timeScale = 0;
+        ExitCombat();
+        StartCoroutine(MarkGameDead(FindObjectOfType<Player_Controller>()));
         EndScreen.SetActive(true);
         Score.text = score.ToString();
     }
@@ -66,8 +68,9 @@ public class SceneControl : MonoBehaviour
         Map.SetActive(false);
         Store.SetActive(true);
     }
-    public void ExitStore()
+    public void ExitStore(int c, int v)
     {
+        StartCoroutine(MarkStore(FindObjectOfType<Player_Controller>(),c,v));
         Map.SetActive(true);
         Store.SetActive(false);
     }
@@ -90,6 +93,7 @@ public class SceneControl : MonoBehaviour
         }
         Map.SetActive(true);
         FindObjectOfType<Camera_zoomnode>().Change_Camera(0);
+        CheckEndLevel();
     }
     private string URL =
     "https://docs.google.com/forms/u/0/d/e/1FAIpQLSffsKRmzTO-xS7cfq9dw66gCHljU-0mgWbbEQjMofKPAoK4_g/formResponse";
@@ -108,6 +112,15 @@ public class SceneControl : MonoBehaviour
         form.AddField("entry.432945298", p.PlayerRut);//rut
         form.AddField("entry.313003536", "3");//action
         form.AddField("entry.1871614421", "FinalScore: " + p.Score+", Muerte en: "+CurrentNode.name);//description
+        UnityWebRequest www = UnityWebRequest.Post(URL, form);
+        yield return www.SendWebRequest();
+    }
+    IEnumerator MarkStore(Player_Controller p, int compras, int ventas)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.313003536", "2");//action
+        form.AddField("entry.1871614421", "Compras: " + compras +", Ventas: "+ventas) ;//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }

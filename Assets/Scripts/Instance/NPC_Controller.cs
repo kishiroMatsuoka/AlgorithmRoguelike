@@ -7,7 +7,7 @@ public class NPC_Controller : MonoBehaviour
     [SerializeField] NPC _npcData;
     public Sprite _npcSprite;
     public string _name;
-    public int _dmg, _health, _maxHealth, _defense;
+    public int _dmg, _health, _maxHealth, _defense,effective_dmg = 0, effective_def = 0;
     public bool _magic, _isAlive=true;
     void Awake()
     {
@@ -41,6 +41,22 @@ public class NPC_Controller : MonoBehaviour
                 _isAlive = false;
             }
         }
+    }
+    public void StatusEffect(EnemySystem.Skills.StatTarget st,int modifier, bool positive)
+    {
+        if(st == EnemySystem.Skills.StatTarget.Attack)
+        {
+            var t = (int)System.Math.Round(_dmg * modifier / 100f);
+            if (positive){effective_dmg += t;}
+            else{effective_dmg -= t;}
+        }
+        else
+        {
+            var t = (int)System.Math.Round(_defense * modifier / 100f);
+            if (positive) { effective_def += t; }
+            else { effective_def -= t; }
+        }
+        
     }
 
 }

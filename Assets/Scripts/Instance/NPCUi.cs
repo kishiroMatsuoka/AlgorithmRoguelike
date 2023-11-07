@@ -9,7 +9,6 @@ public class NPCUi : MonoBehaviour
     [SerializeField] TextMeshProUGUI _hpcounter;
     public bool UsePercentage = false;
     public NPC_Controller controller;
-    bool is_start = true;
     int currenthp, maxhp;
     void OnEnable()
     {

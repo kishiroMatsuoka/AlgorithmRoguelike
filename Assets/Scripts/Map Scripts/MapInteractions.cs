@@ -8,14 +8,34 @@ using System;
 public class MapInteractions : MonoBehaviour
 {
     [SerializeField] GameObject ScanResult;
+    [SerializeField] UnityEngine.UI.Button[] Scanners;
     [SerializeField] TextMeshProUGUI ScanResultTxt;
     [HideInInspector] public List<Node> nodes;
     SceneControl sc;
+    Player_Controller pc;
     string travel;
     public int difficulty=0;
     void Start()
     {
         sc = FindObjectOfType<SceneControl>();
+        pc = FindObjectOfType<Player_Controller>();
+    }
+    private void Update()
+    {
+        if(pc.Scans <1)
+        {
+            foreach(var b in Scanners)
+            {
+                b.enabled = false;
+            }
+        }
+        else
+        {
+            foreach (var b in Scanners)
+            {
+                b.enabled = true;
+            }
+        }
     }
     public void RenameSimple(int layer)
     {
@@ -42,6 +62,8 @@ public class MapInteractions : MonoBehaviour
     }
     public void Scan(int s)
     {
+        pc.Scans--;
+        travel = "";
         switch (s)
         {
             case 0://preorder
@@ -50,12 +72,16 @@ public class MapInteractions : MonoBehaviour
                 PreOrden(sc.CurrentNode);
                 break;
             case 1://inorder
-
+                InOrden(sc.CurrentNode);
+                travel = travel.Remove(0,1);
+                recorrido.Clear();
                 break;
             case 2://postorden
 
                 break;
         }
+        ScanResultTxt.text = travel;
+        ScanResult.SetActive(true);
         //ScanChilds(sc.CurrentNode);
     }
     public void NodosActuales()
@@ -85,16 +111,29 @@ public class MapInteractions : MonoBehaviour
                 PreOrden(nc.Conection_Child);
             }
         }
-        ScanResultTxt.text = travel;
-        ScanResult.SetActive(true);
+        
     }
+    private List<string> recorrido= new List<string>();
     void InOrden(Node node)
     {
-        foreach (Node_Conection nc in node.Node_Conections)
+        if (node.Node_Conections[0].Conection_Child.N_Type !=NodeType.Boss)
         {
-            PreOrden(nc.Conection_Child);
-            travel += "," + nc.Conection_Child + "-L: " + nc.Conection_Child.Layer;
+            foreach (Node_Conection nc in node.Node_Conections)
+            {
+                InOrden(nc.Conection_Child);
+                if (!recorrido.Contains(node.name))
+                {
+                    travel += "," + node.name + "[" + node.N_Type + "]";
+                    recorrido.Add(node.name);
+                }
+            }
         }
+        else
+        {
+            travel += ","+node.name;
+            recorrido.Add(node.name);
+        }
+        
     }
     void PostOrden(Node node)
     {

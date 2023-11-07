@@ -9,7 +9,7 @@ public class MapUi : MonoBehaviour
     [SerializeField] Image playerSprite;
     [SerializeField] GameObject Node_Arrow;
     [SerializeField] GameObject[] Ui_info;
-    [SerializeField] GameObject[] InfoInventory;
+    [SerializeField] TextMeshProUGUI[] InfoInventory;
     [SerializeField] GameObject[] SlotsParty;
     Player_Controller pc;
 
@@ -21,14 +21,15 @@ public class MapUi : MonoBehaviour
     }
     private void Update()
     {
-        InfoInventory[0].GetComponent<TextMeshProUGUI>().text = pc.money.ToString();
-        InfoInventory[1].GetComponent<TextMeshProUGUI>().text = pc._hp.ToString();
+        InfoInventory[0].text = pc.money.ToString();
+        InfoInventory[1].text = pc._hp.ToString();
+        InfoInventory[2].text = "Scans: " + pc.Scans;
     }
     public void UpdateParty()
     {
         int count = 0;
-        InfoInventory[0].GetComponent<TextMeshProUGUI>().text = pc.money.ToString();
-        InfoInventory[1].GetComponent<TextMeshProUGUI>().text = pc._hp.ToString();
+        InfoInventory[0].text = pc.money.ToString();
+        InfoInventory[1].text = pc._hp.ToString();
         foreach (NPC_Controller npc in pc.party)
         {
             

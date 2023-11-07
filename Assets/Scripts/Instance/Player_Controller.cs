@@ -8,7 +8,7 @@ public class Player_Controller : MonoBehaviour
     public PoolTable Store, Combat, General;
     [HideInInspector] public List<NPC_Controller> party = new List<NPC_Controller>();
     public Inventory _inventory;
-    public int _hp, _maxhp, _def, _maxcost, money = 100;
+    public int _hp, _maxhp, _def, _maxcost, money = 100, Scans;
     public int Score = 0;
     public bool PlayerDead = false;
     public Sprite SP;
@@ -24,6 +24,7 @@ public class Player_Controller : MonoBehaviour
         _def = _playerData.def;
         _maxcost = _playerData.maxcost;
         _inventory = Instantiate(_playerData.inventory);
+        Scans = 2;
         print("Player data Loaded");
     }
     private void Update()
@@ -45,9 +46,13 @@ public class Player_Controller : MonoBehaviour
         {
             if (m._isAlive)
             {
-                en[Random.Range(0, en.Count)].ChangeHp(m._dmg, m._magic);
+                en[Random.Range(0, en.Count)].ChangeHp(m._dmg+m.effective_dmg, m._magic);
             }
         }
+    }
+    public void PartyEffect(EnemySystem.Skills.StatTarget st, int multiplayer, bool positive)
+    {
+        foreach(NPC_Controller npc in party){if (npc._isAlive) { npc.StatusEffect(st, multiplayer, positive); }}
     }
     public void PartyRecieveDmg(int dmg, bool aoe)
     {

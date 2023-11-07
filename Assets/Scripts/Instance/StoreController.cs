@@ -8,8 +8,10 @@ public class StoreController : MonoBehaviour
     public Transform PanelVenta, PanelInventario, Stack;
     public GameObject LootPrefab;
     Player_Controller pc;
+    public int Compras, Ventas;
     private void OnEnable()
     {
+        Compras = Ventas = 0;
         pc = GameObject.Find("Player").GetComponent<Player_Controller>();
         health.text = pc._hp.ToString();
         gold.text = pc.money.ToString();
@@ -40,6 +42,10 @@ public class StoreController : MonoBehaviour
             }
         }
         
+    }
+    public void Exit()
+    {
+        FindObjectOfType<SceneControl>().ExitStore(Compras, Ventas);
     }
     void FillStore()
     {

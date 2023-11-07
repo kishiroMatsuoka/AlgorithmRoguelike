@@ -8,7 +8,7 @@ public class Map_Generation : MonoBehaviour
     [SerializeField] private Map_Configuration configuration;
     [SerializeField] private GameObject Empty;
     [SerializeField] private GameObject[] icons;
-    [SerializeField] private GameObject[] enemylist, bosses;
+    [SerializeField] private GameObject[] enemylist,elitelist, bosses;
     public float ChanceUpgrade, ChanceHeal,ChanceChest;
     private List<Node> nodes = new List<Node>();
     private int n_bosses=0, n_stores=0, n_elites=0;
@@ -51,7 +51,12 @@ public class Map_Generation : MonoBehaviour
         {
             Node node = GenerateNode(layer);
             number_of_nodes++;
-            int temp = Random.Range(1, configuration.Map_Complexity + 1);
+            int temp = Random.Range(1, configuration.Map_Complexity);//lvl 1 - 1min, max3
+            //exclusive 3 -> 1,2
+            if(layer == 0)
+            {
+                temp = configuration.Map_Complexity;
+            }
             for (int i = 1; i <= temp; i++)
             {
                 node.AddConection(GenerateMapRecursive(layer + 1), configuration);
@@ -318,8 +323,17 @@ public class Map_Generation : MonoBehaviour
                     node.name = icons[3].name;
                     for (int x = 0; x < 3; x++)
                     {
-                        int re = Random.Range(0, enemylist.Length);
-                        node.Node_Enemies.Add(enemylist[re]);
+                        if (Random.Range(0, 2) > 0)
+                        {
+                            int re = Random.Range(0, elitelist.Length);
+                            node.Node_Enemies.Add(enemylist[re]);
+                        }
+                        else
+                        {
+                            int re = Random.Range(0, enemylist.Length);
+                            node.Node_Enemies.Add(enemylist[re]);
+                        }
+                        
                     }
                     n_elites++;
                 }

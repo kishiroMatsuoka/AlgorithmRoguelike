@@ -13,7 +13,6 @@ public class CombatEnd : MonoBehaviour
     private void OnEnable()
     {
         pc = FindObjectOfType<Player_Controller>();
-        Time.timeScale = 0;
         pc.Score += cc.combat_score;
         CombatPoints.text = 
             cc.combat_score + " Points\n" +
@@ -30,7 +29,6 @@ public class CombatEnd : MonoBehaviour
     }
     public void ReturnToMap()
     {
-        Time.timeScale = 1;
         if(holder1 != null) { Destroy(holder1);holder1 = null; Slot1.gameObject.SetActive(false); }
         if(holder2 != null) { Destroy(holder2);holder2 = null; Slot2.gameObject.SetActive(false); }
         FindObjectOfType<SceneControl>().ExitCombat();
