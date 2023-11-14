@@ -37,29 +37,6 @@ public class MapInteractions : MonoBehaviour
             }
         }
     }
-    public void RenameSimple(int layer)
-    {
-        print("Rename Called: int layer= "+layer);
-        int letter = 66;
-        for(int x =1; x <= layer; x++)
-        {
-            print("For Cycle: x ="+x);
-            var t = nodes.FindAll(n => n.Layer == x);
-            print("Nodes finded: " + t.Count);
-            foreach(Node n in t)
-            {
-                print(Convert.ToChar(letter).ToString());
-                n.name = Convert.ToChar(letter).ToString();
-                letter++;
-            }
-        }
-        var a = FindObjectsOfType<NodeContainer>();
-        foreach(NodeContainer nc in a)
-        {
-            print("UpdateName Called");
-            nc.UpdateName();
-        }
-    }
     public void Scan(int s)
     {
         pc.Scans--;
@@ -77,9 +54,12 @@ public class MapInteractions : MonoBehaviour
                 recorrido.Clear();
                 break;
             case 2://postorden
-
+                PostOrden(sc.CurrentNode);
+                travel = travel.Remove(0, 1);
+                recorrido.Clear();
                 break;
         }
+        
         ScanResultTxt.text = travel;
         ScanResult.SetActive(true);
         //ScanChilds(sc.CurrentNode);
@@ -118,7 +98,7 @@ public class MapInteractions : MonoBehaviour
     {
         if (node.Node_Conections[0].Conection_Child.N_Type !=NodeType.Boss)
         {
-            foreach (Node_Conection nc in node.Node_Conections)
+            foreach (Node_Conection nc in node.Node_Conections.FindAll(x => x.Conection_Type == ConectionType.normal))
             {
                 InOrden(nc.Conection_Child);
                 if (!recorrido.Contains(node.name))
@@ -137,10 +117,25 @@ public class MapInteractions : MonoBehaviour
     }
     void PostOrden(Node node)
     {
-        foreach (Node_Conection nc in node.Node_Conections)
+        if (node.Node_Conections.FindAll(x => x.Conection_Child.N_Type == NodeType.Boss).Count == 0)
         {
-            travel += "," + nc.Conection_Child + "-L: " + nc.Conection_Child.Layer;
-            PreOrden(nc.Conection_Child);
+            foreach (Node_Conection nc in node.Node_Conections.FindAll(x => x.Conection_Type == ConectionType.normal))
+            {
+                PostOrden(nc.Conection_Child);
+            }
+            if (!recorrido.Contains(node.name))
+            {
+                travel += "," + node.name + "[" + node.N_Type + "]";
+                recorrido.Add(node.name);
+            }
+        }
+        else
+        {
+            if (!recorrido.Contains(node.name))
+            {
+                travel += "," + node.name + "[" + node.N_Type + "]";
+                recorrido.Add(node.name);
+            }
         }
     }
     void ScanChilds(Node target)

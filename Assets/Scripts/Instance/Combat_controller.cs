@@ -46,13 +46,10 @@ public class Combat_controller : MonoBehaviour
             //play board
             foreach (Actions action in ActionsInBoard)
             {
-                if (!StopCombat)
-                {
-                    CodeToExecute(action);
-                }
+                CodeToExecute(action);
             }
-            StopCombat = CheckDead();
-            if (!CombatResultScreen.activeSelf && !StopCombat)
+            CheckDead();
+            if (!CombatResultScreen.activeSelf)
             {
                 //enemy turn
                 foreach (Enemy x in n_enemy)
@@ -102,7 +99,7 @@ public class Combat_controller : MonoBehaviour
             extraCost.transform.parent.gameObject.SetActive(false);
         }
     }
-    bool CheckDead()
+    void CheckDead()
     {
         List<GameObject> objects = new List<GameObject>();
         foreach(Enemy en in n_enemy.FindAll(x => x.IsDead == true))
@@ -120,9 +117,7 @@ public class Combat_controller : MonoBehaviour
                 FindObjectOfType<SceneControl>().BossDead = true;
             }
             CombatResultScreen.SetActive(true);
-            return true;
         }
-        return false;
     }
     public void CodeToExecute(Actions code)
     {
@@ -368,8 +363,9 @@ public class Combat_controller : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", pc.PlayerRut);//rut
+        form.AddField("entry.1341581189", pc.GameUID);
         form.AddField("entry.313003536", "1");//action
-        form.AddField("entry.1871614421", combat_score + ", turnos: " + turn_counter);//description
+        form.AddField("entry.1871614421", "Combate terminado, Puntaje:"+combat_score + ", turnos: " + turn_counter);//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }

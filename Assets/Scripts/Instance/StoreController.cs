@@ -5,13 +5,14 @@ public class StoreController : MonoBehaviour
 {
     //storepool add here
     [SerializeField] TextMeshProUGUI health, gold;
+    [SerializeField] SceneControl sc;
     public Transform PanelVenta, PanelInventario, Stack;
     public GameObject LootPrefab;
     Player_Controller pc;
     public int Compras, Ventas;
     private void OnEnable()
     {
-        Compras = Ventas = 0;
+        Compras = 0; Ventas = 0;
         pc = GameObject.Find("Player").GetComponent<Player_Controller>();
         health.text = pc._hp.ToString();
         gold.text = pc.money.ToString();
@@ -45,7 +46,7 @@ public class StoreController : MonoBehaviour
     }
     public void Exit()
     {
-        FindObjectOfType<SceneControl>().ExitStore(Compras, Ventas);
+        sc.ExitStore(Compras, Ventas);
     }
     void FillStore()
     {
@@ -59,8 +60,14 @@ public class StoreController : MonoBehaviour
         foreach (Transform slot in PanelVenta)
         {
             var i = pc.Store.GetRandomItem(Random.Range(0, 10));
+            while (true)
+            {
+                if(i!= null){break;}
+                else { i = pc.Store.GetRandomItem(Random.Range(0, 10)); }
+            }
             var t = Instantiate(LootPrefab, slot);
             t.GetComponent<LootPreview>().SetName(i);
+
         }
     }
 

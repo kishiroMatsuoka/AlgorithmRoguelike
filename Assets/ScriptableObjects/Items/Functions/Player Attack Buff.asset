@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1484c44dd1ebc40b8d8a706e5a6642, type: 3}
   m_Name: Player Attack Buff
   m_EditorClassIdentifier: 
+  ItemSprite: {fileID: 21300000, guid: 794f1850ac7965746933ca3ba51d441b, type: 3}
   ItemName: Atk Up
   ItemDescription: Aumenta es ataque del jugador en %_ durante el turno.
   ItemRarity: 2

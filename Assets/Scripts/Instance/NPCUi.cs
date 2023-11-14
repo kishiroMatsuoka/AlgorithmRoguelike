@@ -7,13 +7,11 @@ public class NPCUi : MonoBehaviour
 {
     [SerializeField] Image _greenbar, _redbar;
     [SerializeField] TextMeshProUGUI _hpcounter;
-    public bool UsePercentage = false;
     public NPC_Controller controller;
     int currenthp, maxhp;
     void OnEnable()
     {
-        currenthp = controller._health;
-        maxhp = controller._maxHealth;
+        UpdateHealth();
     }
 
     // Update is called once per frame
@@ -31,34 +29,7 @@ public class NPCUi : MonoBehaviour
         float per = (((currenthp * 100.0f) / maxhp) / 100.0f);
         _hpcounter.text = per+" %";
     }
-    /*
-    public void UpdateHealth()
-    {
-        currenthp = controller._health;
-        maxhp = controller._maxHealth;
-        float hppercentage = ((currenthp * 100) / maxhp) / 100.0f;
-        if (UsePercentage)
-        {
-            _hpcounter.text = hppercentage + "%";
-        }
-        else
-        {
-            _hpcounter.text = currenthp + " Hp";
-        }
-        if (is_start)
-        {
-            _greenbar.fillAmount = hppercentage;
-            _redbar.fillAmount = _greenbar.fillAmount;
-            is_start = false;
-        }
-        else
-        {
-            _greenbar.fillAmount = hppercentage;
-            StopAllCoroutines();
-            StartCoroutine(UpdateRedBar(hppercentage));
-        }
-    }
-    */
+
     public void test(int dmg)
     {
         controller._health -= dmg;

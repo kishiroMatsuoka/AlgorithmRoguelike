@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     //System Access
-    public string PlayerRut;
+    public string PlayerRut, GameUID;
     public PoolTable Store, Combat, General;
     [HideInInspector] public List<NPC_Controller> party = new List<NPC_Controller>();
     public Inventory _inventory;
@@ -27,17 +27,20 @@ public class Player_Controller : MonoBehaviour
         Scans = 2;
         print("Player data Loaded");
     }
+    bool GameOver = false;
     private void Update()
     {
-        if (PlayerDead)
+        if (PlayerDead && !GameOver)
         {
+            GameOver = true;
             FindObjectOfType<SceneControl>().GameOver(Score);
         }
     }
     public void CheckStatus()
     {
         if (_hp > _maxhp) { _hp = _maxhp; }
-        else if (_hp <= 0) { //dedad
+        else if (_hp <= 0) {
+            PlayerDead = true;
                              }
     }
     public void PartyAttack(List<Enemy> en)

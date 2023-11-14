@@ -101,8 +101,9 @@ public class SceneControl : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.1341581189", p.GameUID);
         form.AddField("entry.313003536", "4");//action
-        form.AddField("entry.1871614421", "FinalScore: "+p.Score);//description
+        form.AddField("entry.1871614421", "Partida Finalizada PuntajeTotal: "+p.Score);//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }
@@ -110,8 +111,9 @@ public class SceneControl : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.1341581189", p.GameUID);
         form.AddField("entry.313003536", "3");//action
-        form.AddField("entry.1871614421", "FinalScore: " + p.Score+", Muerte en: "+CurrentNode.name);//description
+        form.AddField("entry.1871614421", "Partida Interrumpida PuntajeTotal: " + p.Score+", Muerte en: "+CurrentNode.name);//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }
@@ -119,8 +121,9 @@ public class SceneControl : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.1341581189", p.GameUID);
         form.AddField("entry.313003536", "2");//action
-        form.AddField("entry.1871614421", "Compras: " + compras +", Ventas: "+ventas) ;//description
+        form.AddField("entry.1871614421", "EntraTienda-> Compras: " + compras +", Ventas: "+ventas) ;//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }

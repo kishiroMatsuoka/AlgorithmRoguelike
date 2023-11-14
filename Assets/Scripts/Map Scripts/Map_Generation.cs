@@ -10,13 +10,13 @@ public class Map_Generation : MonoBehaviour
     [SerializeField] private GameObject[] icons;
     [SerializeField] private GameObject[] enemylist,elitelist, bosses;
     public float ChanceUpgrade, ChanceHeal,ChanceChest;
-    private List<Node> nodes = new List<Node>();
+    [SerializeField] private List<Node> nodes = new List<Node>();
     private int n_bosses=0, n_stores=0, n_elites=0;
     private bool BossNodeCreated = false;
     private GameObject bossnode;
     private List<Vector3> coords = new List<Vector3>();
     private float max_x = 0f;
-
+    public List<Node> testlist = new List<Node>();
     private void Start()
     {
         TestAlg();
@@ -25,10 +25,10 @@ public class Map_Generation : MonoBehaviour
     {
         nodes.Clear();
         GenerateMapRecursive(0);
+        RenameNodes(nodes.Find(x => x.Layer == 0),66);
         SpawnMap();
         GetComponent<MapInteractions>().nodes = nodes;
-        nodes.Find(x => x.Layer == 0).name = "A";
-        GetComponent<MapInteractions>().RenameSimple(configuration.Map_Layers);
+
     }
     private void SpawnMap()
     {
@@ -44,19 +44,39 @@ public class Map_Generation : MonoBehaviour
         sc.MaxLvlZone = configuration.Map_MaxLevel;
 
     }
-    
+
+    private List<string> n_names = new List<string>();
+    void RenameNodes(Node n, int letter)
+    {
+        if (n.Node_Conections.Find(x => x.Conection_Child.name == "boss") != null) ;
+        foreach(Node_Conection nc in n.Node_Conections)
+        {
+            while (true)
+            {
+                string tempname = System.Convert.ToChar(letter).ToString();
+                if (!n_names.Contains(tempname))
+                {
+                    nc.Conection_Child.name = tempname;
+                    n_names.Add(nc.Conection_Child.name);
+                    break;
+                }
+                else
+                {
+                    letter++;
+                }
+            }
+            RenameNodes(nc.Conection_Child, letter + nodes.FindAll(x => x.Layer == nc.Conection_Child.Layer).Count);
+            letter++;
+        }
+    }
     private Node GenerateMapRecursive(int layer)
     {
         if (layer < configuration.Map_Layers)
         {
             Node node = GenerateNode(layer);
             number_of_nodes++;
-            int temp = Random.Range(1, configuration.Map_Complexity);//lvl 1 - 1min, max3
-            //exclusive 3 -> 1,2
-            if(layer == 0)
-            {
-                temp = configuration.Map_Complexity;
-            }
+            int temp = Random.Range(1, configuration.Map_Complexity);//lvl 1 - 1min, max3 | exclusive 3 -> 1,2
+            if(layer == 0){temp = configuration.Map_Complexity; node.name = System.Convert.ToChar(65).ToString(); }
             for (int i = 1; i <= temp; i++)
             {
                 node.AddConection(GenerateMapRecursive(layer + 1), configuration);
@@ -89,81 +109,16 @@ public class Map_Generation : MonoBehaviour
             }
         }
     }
-    private void SpawnChildRandom(Node parent, GameObject parent_t)
+    void BranchSpawn()
     {
-        float y, x,x_parent = parent_t.transform.position.x, y_parent = parent_t.transform.position.y;
-        int childs = parent.Node_Conections.Count, count = 0;
-        //lines
-        LineRenderUpdate[] lines = new LineRenderUpdate[childs];
-        for (int i = 0; i < childs; i++)
-        {
-            var temp = Instantiate(Empty, parent_t.transform);
-            temp.transform.SetAsFirstSibling();
-            temp.GetComponent<LineRenderer>().SetPosition(0, parent_t.transform.position);
-            lines[i] = temp.GetComponent<LineRenderUpdate>();
+        Node spawn = nodes.Find(x => x.Layer == 0);
+        var nodespawn = Instantiate(spawn.icon, gameObject.transform);
+        nodespawn.transform.position = Vector3.zero;
+        nodespawn.GetComponent<NodeContainer>().SetNode(spawn);
 
-        }
-        //recursive
-        foreach (Node_Conection nc in parent.Node_Conections)
+        for (int i = 1; i < configuration.Map_Layers + 1; i++)
         {
-            if (nc.Conection_Child.N_Type == NodeType.Boss)
-            {
-                if (bossnode != null)
-                {
-                    lines[count].SetReference(bossnode.transform);
-                    count++;
-                }
-                else
-                {
-                    var nodeimage = Instantiate(nc.Conection_Child.icon);
-                    x = max_x + 5f;
-                    x = Mathf.Round(x * 1.0f) * 1.0f;
-                    nodeimage.transform.position = new Vector3(x, 0f, 0f);
-                    nodeimage.GetComponent<NodeContainer>().SetNode(nc.Conection_Child);
-                    lines[count].SetReference(nodeimage.transform);
-                    count++;
-                    bossnode = nodeimage;
-                }
-            }
-            else
-            {
-                x = x_parent + 3f;
-                x = Mathf.Round(Random.Range(x, x + 1f) * 100.0f) * 0.01f;
-                y = Random.Range(y_parent - 3.0f, y_parent + 3.0f);
-                int stop = 0;
-                while (true)
-                {
-                    if (Physics.OverlapSphere(new Vector3(x, y, 0f), 0.6f, 1 << 7).Length > 0)
-                    {
-                        Debug.Log("Detecting collisions : " + Physics.OverlapSphere(new Vector3(x, y, 0f), 0.6f, 1 << 7).Length);
-                        foreach (var test in Physics.OverlapSphere(new Vector3(x, y, 0f), 0.55f, 1 << 7))
-                        {
-                            Debug.Log(test.gameObject.name + "\t coor : " + test.transform.position);
-                        }
-                        y = Mathf.Round(Random.Range(y_parent - 3.0f, y_parent + 3.0f) * 100.0f) * 0.01f;
-                        x = Mathf.Round(Random.Range(x, x+3f) * 100.0f) * 0.01f;
-                        stop++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                if (stop > 0)
-                {
-                    Debug.Log("Times coords updated : " + stop + "\t Final coord : " + new Vector3(x, y, 0f));
-                }
-                var nodeimage = Instantiate(nc.Conection_Child.icon);
-                nodeimage.GetComponent<NodeContainer>().SetNode(nc.Conection_Child);
-                nodeimage.transform.position = new Vector3(x, y, 0f);
-                lines[count].SetReference(nodeimage.transform);
-                count++;
-                if(nodeimage.transform.position.x > max_x)
-                {
-                    max_x = nodeimage.transform.position.x;
-                }
-                SpawnChildRandom(nc.Conection_Child, nodeimage);
-            }
+            int nodesinlayer = nodes.FindAll(x => x.Layer == i).Count;
         }
     }
     private void SpawnChild(Node parent, GameObject parent_t)

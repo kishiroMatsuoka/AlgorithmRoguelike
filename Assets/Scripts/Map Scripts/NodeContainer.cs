@@ -12,9 +12,11 @@ public class NodeContainer : MonoBehaviour
     {
         Nodeinfo = node;
         Name.text = Nodeinfo.name;
+        UpdateName();
     }
-    public void UpdateName()
+    void UpdateName()
     {
         Name.text = Nodeinfo.name;
+        gameObject.name = Name.text;
     }
 }

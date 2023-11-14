@@ -343,6 +343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797af333ab87fef429792cb515f26a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteinv: {fileID: 4597609913467699510}
+  spritegame: {fileID: 2667379980877656518}
   InvName: {fileID: 4597609913095249486}
   Description: {fileID: 6916939035911848953}
   Parent_Transform: {fileID: 0}
@@ -648,7 +650,7 @@ GameObject:
   - component: {fileID: 4597609913467699511}
   - component: {fileID: 4597609913467699510}
   m_Layer: 5
-  m_Name: Image
+  m_Name: spinv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -839,7 +841,7 @@ GameObject:
   - component: {fileID: 1647892792787790114}
   - component: {fileID: 2667379980877656518}
   m_Layer: 5
-  m_Name: Image
+  m_Name: spplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

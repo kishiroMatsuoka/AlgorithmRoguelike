@@ -76,15 +76,20 @@ public class GameData : MonoBehaviour
         string playerrut = RutInput.text;
         var x = Instantiate(player);
         x.name = "Player";
+        string uid = Random.Range(0, 10001).ToString();
         x.GetComponent<Player_Controller>().PlayerRut = playerrut;
-        StartCoroutine(MarkStart(playerrut));
+        x.GetComponent<Player_Controller>().GameUID = uid;
+
+        StartCoroutine(MarkStart(playerrut,uid));
     }
+    
     private string URL =
         "https://docs.google.com/forms/u/0/d/e/1FAIpQLSffsKRmzTO-xS7cfq9dw66gCHljU-0mgWbbEQjMofKPAoK4_g/formResponse";
-    IEnumerator MarkStart(string rut)
+    IEnumerator MarkStart(string rut,string UID)
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", rut);//rut
+        form.AddField("entry.1341581189", UID);
         form.AddField("entry.313003536", "0");//action
         form.AddField("entry.1871614421", "Inicia Partida");//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);

@@ -5,6 +5,7 @@ using ItemSystem;
 
 public class Drag_Drop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
+    [SerializeField] UnityEngine.UI.Image spriteinv, spritegame;
     [SerializeField] TextMeshProUGUI InvName, Description;
     [HideInInspector] public Transform Parent_Transform, CanvasT;
     [HideInInspector] public Attach_Zone varAttach;
@@ -25,6 +26,8 @@ public class Drag_Drop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         _position = transform.position;
         CanvasT = GameObject.Find("Combat UI").GetComponent<Transform>();
         cc = FindObjectOfType<Combat_controller>();
+        spriteinv.sprite = itemdata.ItemSprite;
+        spritegame.sprite = spriteinv.sprite;
 
     }
     private void Update()
