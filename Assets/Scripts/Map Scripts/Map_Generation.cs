@@ -16,7 +16,7 @@ public class Map_Generation : MonoBehaviour
     private GameObject bossnode;
     private List<Vector3> coords = new List<Vector3>();
     private float max_x = 0f;
-    public List<Node> testlist = new List<Node>();
+    const float axisX = 1.8f, axisY=-2.5f;
     private void Start()
     {
         TestAlg();
@@ -25,8 +25,13 @@ public class Map_Generation : MonoBehaviour
     {
         nodes.Clear();
         GenerateMapRecursive(0);
-        RenameNodes(nodes.Find(x => x.Layer == 0),66);
-        SpawnMap();
+        RenameNodes(nodes.Find(x => x.Layer == 0),66);//letras
+        //RenameNodes(nodes.Find(x => x.Layer == 0),1);//numeros
+        //nodes.Sort((x, y) => x.name.CompareTo(y.name));
+        nodes.Sort((x, y) => x.NodeId.CompareTo(y.NodeId));
+        //nodes.Sort();
+        BranchSpawn();
+        //SpawnMap();
         GetComponent<MapInteractions>().nodes = nodes;
 
     }
@@ -54,9 +59,11 @@ public class Map_Generation : MonoBehaviour
             while (true)
             {
                 string tempname = System.Convert.ToChar(letter).ToString();
+                //string tempname = letter.ToString();
                 if (!n_names.Contains(tempname))
                 {
                     nc.Conection_Child.name = tempname;
+                    nc.Conection_Child.NodeId = letter;
                     n_names.Add(nc.Conection_Child.name);
                     break;
                 }
@@ -75,8 +82,11 @@ public class Map_Generation : MonoBehaviour
         {
             Node node = GenerateNode(layer);
             number_of_nodes++;
-            int temp = Random.Range(1, configuration.Map_Complexity);//lvl 1 - 1min, max3 | exclusive 3 -> 1,2
-            if(layer == 0){temp = configuration.Map_Complexity; node.name = System.Convert.ToChar(65).ToString(); }
+            int temp = Random.Range(1, configuration.Map_Complexity+1);//lvl 1 - 1min, max3 | exclusive 3 -> 1,2
+            if(layer == 0){temp = configuration.Map_Complexity; 
+                node.name = System.Convert.ToChar(65).ToString();
+                node.NodeId = 0;
+            }
             for (int i = 1; i <= temp; i++)
             {
                 node.AddConection(GenerateMapRecursive(layer + 1), configuration);
@@ -109,17 +119,54 @@ public class Map_Generation : MonoBehaviour
             }
         }
     }
-    void BranchSpawn()
+    void BranchSpawn()//constraints x 1.8f y-2.5
     {
+        List<GameObject> _nodes = new List<GameObject>();
         Node spawn = nodes.Find(x => x.Layer == 0);
         var nodespawn = Instantiate(spawn.icon, gameObject.transform);
         nodespawn.transform.position = Vector3.zero;
         nodespawn.GetComponent<NodeContainer>().SetNode(spawn);
-
-        for (int i = 1; i < configuration.Map_Layers + 1; i++)
+        _nodes.Add(nodespawn);
+        for (int i = 1; i <= configuration.Map_Layers; i++)
         {
             int nodesinlayer = nodes.FindAll(x => x.Layer == i).Count;
+            float middle = ((nodesinlayer - 1)*-axisX)/2;
+            print(middle);
+            foreach(Node n in nodes.FindAll(x => x.Layer == i))
+            {
+                Vector3 refpos = new Vector3(middle, axisY * i, 0f);
+                var nodeimage = Instantiate(n.icon, gameObject.transform);
+                nodeimage.GetComponent<NodeContainer>().SetNode(n);
+                nodeimage.transform.position = refpos;
+                _nodes.Add(nodeimage);
+                middle += axisX;
+                print(middle);
+
+            }
         }
+        Node boss = nodes.Find(x => x.N_Type == NodeType.Boss);
+        var bossspawn = Instantiate(boss.icon, gameObject.transform);
+        bossspawn.transform.position = new Vector3(0f,axisY*boss.Layer-3f,0f);
+        bossspawn.GetComponent<NodeContainer>().SetNode(boss);
+        _nodes.Add(bossspawn);
+        //Add Lines
+        Physics2D.SyncTransforms();
+        foreach (GameObject n in _nodes)
+        {
+            var node = n.GetComponent<NodeContainer>().Nodeinfo;
+            foreach(Node_Conection nc in node.Node_Conections)
+            {
+                var nodetemp = _nodes.Find(x => x.name == nc.Conection_Child.name);
+                var temp = Instantiate(Empty, n.transform);
+                temp.transform.SetAsFirstSibling();
+                temp.GetComponent<LineRenderer>().SetPosition(0, n.transform.position);
+                temp.GetComponent<LineRenderUpdate>().SetReference(nodetemp.transform);
+            }
+        }
+        SceneControl sc = GameObject.Find("EventSystem").GetComponent<SceneControl>();
+        sc.CurrentNode = spawn;
+        sc.CNodeObject = nodespawn.transform;
+        sc.MaxLvlZone = configuration.Map_MaxLevel;
     }
     private void SpawnChild(Node parent, GameObject parent_t)
     {

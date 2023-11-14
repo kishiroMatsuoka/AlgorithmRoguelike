@@ -28,6 +28,7 @@ namespace Map
     [System.Serializable]
     public class Node
     {
+        public int NodeId;
         public string name;
         public GameObject icon;
         public NodeType N_Type;

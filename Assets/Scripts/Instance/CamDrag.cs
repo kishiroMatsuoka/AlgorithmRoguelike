@@ -13,7 +13,7 @@ public class CamDrag : MonoBehaviour
     }
     public void ResetPosition()
     {
-        transform.position = new Vector3(5.36f,0f,-10f);
+        transform.position = new Vector3(0f,-4f,-10f);
     }
     void Update()
     {
