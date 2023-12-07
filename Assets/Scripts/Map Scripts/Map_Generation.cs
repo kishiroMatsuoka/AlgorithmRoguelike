@@ -26,27 +26,9 @@ public class Map_Generation : MonoBehaviour
         nodes.Clear();
         GenerateMapRecursive(0);
         RenameNodes(nodes.Find(x => x.Layer == 0),66);//letras
-        //RenameNodes(nodes.Find(x => x.Layer == 0),1);//numeros
-        //nodes.Sort((x, y) => x.name.CompareTo(y.name));
         nodes.Sort((x, y) => x.NodeId.CompareTo(y.NodeId));
-        //nodes.Sort();
         BranchSpawn();
-        //SpawnMap();
         GetComponent<MapInteractions>().nodes = nodes;
-
-    }
-    private void SpawnMap()
-    {
-        Node spawn = nodes.Find(x => x.Layer == 0);
-        var nodespawn = Instantiate(spawn.icon, gameObject.transform);
-        nodespawn.transform.position = Vector3.zero;
-        nodespawn.GetComponent<NodeContainer>().SetNode(spawn);
-        coords.Clear();
-        SpawnChild(spawn, nodespawn);
-        SceneControl sc = GameObject.Find("EventSystem").GetComponent<SceneControl>();
-        sc.CurrentNode = spawn;
-        sc.CNodeObject = nodespawn.transform;
-        sc.MaxLvlZone = configuration.Map_MaxLevel;
 
     }
 
@@ -82,10 +64,18 @@ public class Map_Generation : MonoBehaviour
         {
             Node node = GenerateNode(layer);
             number_of_nodes++;
-            int temp = Random.Range(1, configuration.Map_Complexity+1);//lvl 1 - 1min, max3 | exclusive 3 -> 1,2
+            int temp = Random.Range(1, configuration.Map_Complexity);//lvl 1 - 1min, max3 | exclusive 3 -> 1,2
+            Debug.Log("Complexity= " + temp);
             if(layer == 0){temp = configuration.Map_Complexity; 
                 node.name = System.Convert.ToChar(65).ToString();
                 node.NodeId = 0;
+            }
+            else if(layer > 0)
+            {
+                if(temp > 1)
+                {
+                    if (Random.value > 0.7) { temp--; }
+                }
             }
             for (int i = 1; i <= temp; i++)
             {
@@ -140,7 +130,7 @@ public class Map_Generation : MonoBehaviour
                 nodeimage.transform.position = refpos;
                 _nodes.Add(nodeimage);
                 middle += axisX;
-                print(middle);
+                //print(middle);
 
             }
         }

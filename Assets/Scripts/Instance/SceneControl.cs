@@ -16,7 +16,7 @@ public class SceneControl : MonoBehaviour
     public int MaxLvlZone;
     public Node CurrentNode;
     public Transform CNodeObject;
-
+    bool NodeSelected=false;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -25,6 +25,12 @@ public class SceneControl : MonoBehaviour
             PauseMenu.SetActive(true);
         }
     }
+    //quick selection fix
+    public void SelectionToggle()
+    {
+        StartCoroutine(SelectionDelay());
+    }
+    public bool GetSelectionState() { return NodeSelected; }
     void CheckEndLevel()
     {
         if (BossDead)
@@ -39,8 +45,12 @@ public class SceneControl : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1;
-        StartCoroutine(MarkGameEnd(FindObjectOfType<Player_Controller>()));
-        Destroy(GameObject.Find("Player"));
+        var p = GameObject.Find("Player");
+        if (!BossDead && !p.GetComponent<Player_Controller>().PlayerDead)
+        {
+            StartCoroutine(MarkGameQuit(FindObjectOfType<Player_Controller>()));
+        }
+        Destroy(p);
         SceneManager.LoadScene(0);
     }
     public void GameOver(int score)
@@ -92,18 +102,19 @@ public class SceneControl : MonoBehaviour
             }
         }
         Map.SetActive(true);
-        FindObjectOfType<Camera_zoomnode>().Change_Camera(0);
+        FindObjectOfType<Camera_zoomnode>().RevertCamera();
         CheckEndLevel();
     }
     private string URL =
     "https://docs.google.com/forms/u/0/d/e/1FAIpQLSffsKRmzTO-xS7cfq9dw66gCHljU-0mgWbbEQjMofKPAoK4_g/formResponse";
-    IEnumerator MarkGameEnd(Player_Controller p)
+    
+    IEnumerator MarkStore(Player_Controller p, int compras, int ventas)
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", p.PlayerRut);//rut
         form.AddField("entry.1341581189", p.GameUID);
-        form.AddField("entry.313003536", "4");//action
-        form.AddField("entry.1871614421", "Partida Finalizada PuntajeTotal: "+p.Score);//description
+        form.AddField("entry.313003536", "2");//action
+        form.AddField("entry.1871614421", "EntraTienda-> Compras: " + compras + ", Ventas: " + ventas);//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }
@@ -117,14 +128,31 @@ public class SceneControl : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }
-    IEnumerator MarkStore(Player_Controller p, int compras, int ventas)
+    IEnumerator MarkGameEnd(Player_Controller p)
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.432945298", p.PlayerRut);//rut
         form.AddField("entry.1341581189", p.GameUID);
-        form.AddField("entry.313003536", "2");//action
-        form.AddField("entry.1871614421", "EntraTienda-> Compras: " + compras +", Ventas: "+ventas) ;//description
+        form.AddField("entry.313003536", "4");//action
+        form.AddField("entry.1871614421", "Partida Finalizada PuntajeTotal: " + p.Score);//description
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
     }
+    IEnumerator MarkGameQuit(Player_Controller p)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.432945298", p.PlayerRut);//rut
+        form.AddField("entry.1341581189", p.GameUID);
+        form.AddField("entry.313003536", "5");//action
+        form.AddField("entry.1871614421","");//description
+        UnityWebRequest www = UnityWebRequest.Post(URL, form);
+        yield return www.SendWebRequest();
+    }
+    IEnumerator SelectionDelay()
+    {
+        if (NodeSelected == false) { NodeSelected = true; }
+        else { NodeSelected = false; }
+        yield return new WaitForSeconds(1.2f);
+    }
+    
 }

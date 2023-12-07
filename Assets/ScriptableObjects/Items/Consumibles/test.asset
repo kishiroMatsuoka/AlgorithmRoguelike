@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e5b4061f1382a4693cd2750f7f3188, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
+  ItemSprite: {fileID: 0}
   ItemName: Wind cutter Scroll
   ItemDescription: "Hace 25 da\xF1o magico, 3 veces a un enemigo."
   ItemRarity: 4
   ItemCost: 3
   ItemType: 0
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: -83175172, guid: 0a3539cec630cd14f812a6a7f98dabea, type: 3}
   Uses: 3
   cons_effect: 1
   cons_target: 0

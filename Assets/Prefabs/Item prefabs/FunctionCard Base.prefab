@@ -805,6 +805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory_zone: 2
+  functiondata: {fileID: 6986916372290232784}
 --- !u!114 &1043989794217183618
 MonoBehaviour:
   m_ObjectHideFlags: 0

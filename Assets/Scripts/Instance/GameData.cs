@@ -13,7 +13,12 @@ public class GameData : MonoBehaviour
     [SerializeField] Sprite[] BSprite;
     [SerializeField] Button BeginButton;
     GameObject player;
-    
+
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+    }
     private void Start()
     {
         for(int i=0; i < player_prefabs.Length; i++)

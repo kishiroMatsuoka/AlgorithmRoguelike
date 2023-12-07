@@ -26,7 +26,7 @@ public class NPCUi : MonoBehaviour
     {
         currenthp = controller._health;
         maxhp = controller._maxHealth;
-        float per = (((currenthp * 100.0f) / maxhp) / 100.0f);
+        float per = (currenthp * 100.0f) / maxhp;
         _hpcounter.text = per+" %";
     }
 

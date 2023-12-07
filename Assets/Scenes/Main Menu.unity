@@ -3848,7 +3848,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 700215898}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 945383960}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1642256824}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &700215898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3945,9 +3969,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Go Back
-
-'
+  m_text: Volver
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c642beca34db114082ee18d04224b68, type: 2}
   m_sharedMaterial: {fileID: 5704005571055360987, guid: 9c642beca34db114082ee18d04224b68, type: 2}
@@ -6631,9 +6653,6 @@ MonoBehaviour:
   - {fileID: 312533199}
   Description: {fileID: 1735952086}
   RutInput: {fileID: 963025546}
-  EncuestaRut: {fileID: 0}
-  EncuestaValue: {fileID: 0}
-  EncuestaFB: {fileID: 0}
   BSprite:
   - {fileID: 21300000, guid: d3dfe14cc6af28f4fb6434d37b54a691, type: 3}
   - {fileID: 21300000, guid: 9d96c0d08b6ad524bb7bf052a8458235, type: 3}

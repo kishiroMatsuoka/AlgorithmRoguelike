@@ -16,6 +16,7 @@ namespace EnemySystem
     public class Enemies : ScriptableObject
     {
         public string Enemy_Name;
+        public Sprite Enemy_Sprite;
         public List<Skills> Enemy_Skills = new List<Skills>();
         public int Enemy_Health;
         public int Enemy_Damage;

@@ -43,56 +43,63 @@ public class Map_Movement : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        foreach(Node_Conection nc in sc.CurrentNode.Node_Conections)
+        if (!sc.GetSelectionState())
         {
-            if(nc.Conection_Child == noderef)
+            foreach (Node_Conection nc in sc.CurrentNode.Node_Conections)
             {
-                sc.CurrentNode = noderef;
-                sc.CNodeObject = gameObject.transform;
-                mu.UpdateArrow(transform.position);
-                Debug.Log("transform.postition:" + transform.position);
-                switch (noderef.N_Type)
+                if (nc.Conection_Child == noderef)
                 {
-
-                    case NodeType.Combat:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(0);
-                        break;
-                    case NodeType.Elite:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(0);
-                        break;
-                    case NodeType.Boss:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(0);
-                        break;
-                    case NodeType.Store:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(1);
-                        break;
-                    case NodeType.Random:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(2);
-                        break;
-                    case NodeType.Upgrade:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(3);
-                        break;
-                    case NodeType.Heal:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(4);
-                        break;
-                    case NodeType.Chest:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(5);
-                        break;
-                    case NodeType.Blessing:
-                        cam_comp.Update_Node(transform.position);
-                        cam_comp.Change_Camera(6);
-                        break;
+                    sc.CurrentNode = noderef;
+                    sc.CNodeObject = gameObject.transform;
+                    mu.UpdateArrow(transform.position);
+                    Debug.Log("transform.postition:" + transform.position);
+                    sc.SelectionToggle();
+                    switch (noderef.N_Type)
+                    {
+                        case NodeType.Normal:
+                            sc.SelectionToggle();
+                            break;
+                        case NodeType.Combat:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(0);
+                            break;
+                        case NodeType.Elite:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(0);
+                            break;
+                        case NodeType.Boss:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(0);
+                            break;
+                        case NodeType.Store:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(1);
+                            break;
+                        case NodeType.Random:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(2);
+                            break;
+                        case NodeType.Upgrade:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(3);
+                            break;
+                        case NodeType.Heal:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(4);
+                            break;
+                        case NodeType.Chest:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(5);
+                            break;
+                        case NodeType.Blessing:
+                            cam_comp.Update_Node(transform.position);
+                            cam_comp.Change_Camera(6);
+                            break;
+                    }
+                    break;
                 }
-                break;
             }
         }
+        
     }
 }

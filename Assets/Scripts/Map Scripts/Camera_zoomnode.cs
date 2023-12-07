@@ -7,6 +7,9 @@ public class Camera_zoomnode : MonoBehaviour
 {
     [SerializeField] GameObject PreviewPrefab;
     [SerializeField] List<GameObject> NodeUI;
+    //Combat
+    [SerializeField] UnityEngine.UI.Image[] Fifo;
+    [SerializeField] UnityEngine.UI.Image[] Lifo;
     //Chest
     [SerializeField] GameObject[] ChestNodeObjects;
     //Upgrade
@@ -23,11 +26,13 @@ public class Camera_zoomnode : MonoBehaviour
     Camera Cam_main;
     Camera Cam_second;
     Player_Controller pc;
+    SceneControl sc;
     private void Start()
     {
         Cam_main = Camera.main;
         Cam_second = GetComponent<Camera>();
         pc = FindObjectOfType<Player_Controller>();
+        sc = FindObjectOfType<SceneControl>();
     }
     public void Update_Node(Vector3 node_coor)
     {
@@ -35,8 +40,16 @@ public class Camera_zoomnode : MonoBehaviour
         node_coor.z = camera_coor.z;
         transform.position = node_coor;
     }
+    public void RevertCamera()
+    {
+        Cam_main.enabled = true;
+        Cam_second.enabled = false;
+        foreach (GameObject x in NodeUI) { x.SetActive(false); }
+        sc.SelectionToggle();
+    }
     public void Change_Camera(int ui)
     {
+        print("is camera enabled ="+Cam_main.enabled);
         if (Cam_main.enabled)
         {
             Cam_main.enabled = false;
@@ -51,6 +64,9 @@ public class Camera_zoomnode : MonoBehaviour
             //6:Blessing
             switch (ui)
             {
+                case 0:
+                    LoadEnemiesInfo();
+                    break;
                 case 2://random
                     GenerateRandomEvent();
                     break;
@@ -62,11 +78,19 @@ public class Camera_zoomnode : MonoBehaviour
                     break;
             }
         }
-        else
+    }
+    //Combat Functions
+    void LoadEnemiesInfo()
+    {
+        print("Load Enemy info");
+        var sc = FindObjectOfType<SceneControl>();
+        List<GameObject> x = new List<GameObject>();
+        int i = 0;
+        foreach(var e in sc.CurrentNode.Node_Enemies)
         {
-            Cam_main.enabled = true;
-            Cam_second.enabled = false;
-            foreach(GameObject x in NodeUI) { x.SetActive(false); }
+            Fifo[i].sprite = e.GetComponent<Enemy>().GetEnemySprite();
+            Lifo[i].sprite = e.GetComponent<Enemy>().GetEnemySprite();
+            i++;
         }
     }
     //Heal Functions
@@ -154,22 +178,23 @@ public class Camera_zoomnode : MonoBehaviour
                 }
                 break;
             case 2://Get Random item
-                x = pc.General.GetRandomItem(Random.Range(0, 10));
+                x = pc.General.GetRandomItem(Random.Range(1, 10));
                 while (true)
                 {
                     if (x != null) { break; }
-                    else { x = pc.General.GetRandomItem(Random.Range(0, 10)); }
+                    else { x = pc.General.GetRandomItem(Random.Range(1, 10)); }
                 }
+                pc._inventory.AddToInventory(Instantiate(x));
                 break;
             case 3://Get Random Companion
                 var d = sc.npc_pre[Random.Range(0, sc.npc_pre.Length)];
                 npcname = d.GetComponent<NPC_Controller>()._name;
-                Instantiate(d);
-                pc.party.Add(d.GetComponent<NPC_Controller>());
+                pc.party.Add(Instantiate(d).GetComponent<NPC_Controller>());
                 break;
         }
         ShowEvent(ran);
     }
+
     void ShowEvent(int e)
     {
         switch (e)
@@ -252,7 +277,7 @@ public class Camera_zoomnode : MonoBehaviour
                 prev.GetComponent<LootPreview>().SetName(function);
                 prev.name = "NewItem";
                 pc._inventory.RemoveFunction(x);
-                pc._inventory.AddToInventory(function);
+                pc._inventory.AddToInventory(Instantiate(function));
                 ShowResult(2);
                 break;
             case 3: //random up var
@@ -270,7 +295,7 @@ public class Camera_zoomnode : MonoBehaviour
                 prevvar.GetComponent<LootPreview>().SetName (variable);
                 prevvar.name = "NewItem";
                 pc._inventory.RemoveVariable(y);
-                pc._inventory.AddToInventory(variable);
+                pc._inventory.AddToInventory(Instantiate(variable));
                 ShowResult(2);
                 break;
         }
@@ -322,19 +347,16 @@ public class Camera_zoomnode : MonoBehaviour
         {
             ChestNodeObjects[1].SetActive(true);
             var temp = FindObjectOfType<Player_Controller>();
-            var item = temp.General.GetRandomItem(5);
+            var item = temp.General.GetRandomItem(9);
             while (true)
             {
-                if(item != null)
-                {
-                    break;
-                }
+                if(item != null){break;}
                 else
                 {
-                    item = temp.General.GetRandomItem(5);
+                    item = temp.General.GetRandomItem(9);
                 }
             }
-            temp._inventory.AddToInventory(item);
+            temp._inventory.AddToInventory(Instantiate(item));
             var prev = Instantiate(PreviewPrefab, ChestNodeObjects[1].transform.GetChild(0).transform);
             prev.GetComponent<LootPreview>().SetName(item);
             prev.name = "rewardPreviewchest";
@@ -345,6 +367,7 @@ public class Camera_zoomnode : MonoBehaviour
         GameObject x = GameObject.Find("rewardPreviewchest");
         if (x != null) { Destroy(x); }
         foreach(GameObject g in ChestNodeObjects) { g.SetActive(false); }
+        RevertCamera();
     }
 
 }

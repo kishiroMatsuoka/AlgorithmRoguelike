@@ -22,7 +22,7 @@ public class MapInteractions : MonoBehaviour
     }
     private void Update()
     {
-        if(pc.Scans <1)
+        if(pc.Scans > 0)
         {
             foreach(var b in Scanners)
             {
@@ -39,30 +39,32 @@ public class MapInteractions : MonoBehaviour
     }
     public void Scan(int s)
     {
-        pc.Scans--;
-        travel = "";
-        switch (s)
+        if(pc.Scans > 0)
         {
-            case 0://preorder
-                //+ "-L: " + sc.CurrentNode.Layer
-                travel = sc.CurrentNode.name;
-                PreOrden(sc.CurrentNode);
-                break;
-            case 1://inorder
-                InOrden(sc.CurrentNode);
-                travel = travel.Remove(0,1);
-                recorrido.Clear();
-                break;
-            case 2://postorden
-                PostOrden(sc.CurrentNode);
-                travel = travel.Remove(0, 1);
-                recorrido.Clear();
-                break;
+            pc.Scans--;
+            travel = "";
+            switch (s)
+            {
+                case 0://preorder
+                       //+ "-L: " + sc.CurrentNode.Layer
+                    travel = sc.CurrentNode.name;
+                    PreOrden(sc.CurrentNode);
+                    break;
+                case 1://inorder
+                    InOrden(sc.CurrentNode);
+                    travel = travel.Remove(0, 1);
+                    recorrido.Clear();
+                    break;
+                case 2://postorden
+                    PostOrden(sc.CurrentNode);
+                    travel = travel.Remove(0, 1);
+                    recorrido.Clear();
+                    break;
+            }
+
+            ScanResultTxt.text = travel;
+            ScanResult.SetActive(true);
         }
-        
-        ScanResultTxt.text = travel;
-        ScanResult.SetActive(true);
-        //ScanChilds(sc.CurrentNode);
     }
     public void NodosActuales()
     {

@@ -656,6 +656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemdata: {fileID: 0}
   itemname: {fileID: 1370998910319776709}
+  iSprite: {fileID: 1598845086742657731}
   description: {fileID: 6682758610290641147}
   text: {fileID: 2762725291126004914}
 --- !u!114 &7217705618309069401

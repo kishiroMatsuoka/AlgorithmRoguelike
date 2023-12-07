@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7592f860a8c5654da197fcfae471a4a, type: 3}
   m_Name: p25
   m_EditorClassIdentifier: 
+  ItemSprite: {fileID: 0}
   ItemName: Variable Porcentage
   ItemDescription: Variable porcentage para ciertas funciones
-  ItemRarity: 0
+  ItemRarity: 2
   ItemCost: 0
   ItemType: 1
   icon: {fileID: 21300000, guid: e73c0176f72486c4381138ccbcd2b127, type: 3}

@@ -7,9 +7,14 @@ public class Attach_Zone : MonoBehaviour, IDropHandler
     public inventoryType inventory_zone;
     Combat_controller cc;
     bool Occupied = false;
+    [SerializeField] Drag_Drop functiondata;
     private void Start()
     {
         cc = GameObject.Find("CombatController").GetComponent<Combat_controller>();
+        if(inventory_zone != inventoryType.Function)
+        {
+            functiondata = null;
+        }
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -54,10 +59,9 @@ public class Attach_Zone : MonoBehaviour, IDropHandler
                 if (d.GetComponent<Variable_Handler>() != null && !Occupied)
                 {
                     var handler = d.GetComponent<Variable_Handler>();
-                    var item = transform.parent.parent.GetComponent<Drag_Drop>();
-                    if (item.itemdata.Percent && handler.itemdata.isPercentage)
+                    if (functiondata.itemdata.Percent && handler.itemdata.isPercentage)
                     {
-                        handler.function = item;
+                        handler.function = functiondata;
                         handler.function.var_ref = handler;
                         Occupied = true;
                         cc.ActionsInBoard.Add(new Actions(handler.function.itemdata, handler.function.var_ref.itemdata, null));
@@ -66,8 +70,8 @@ public class Attach_Zone : MonoBehaviour, IDropHandler
                     else
                     {
                         int cost = 0;
-                        if(item.itemdata.magic && !handler.itemdata.IsMagic){cost = 1;}
-                        else if (!item.itemdata.magic && handler.itemdata.IsMagic){cost = 1;}
+                        if(functiondata.itemdata.magic && !handler.itemdata.IsMagic){cost = 1;}
+                        else if (!functiondata.itemdata.magic && handler.itemdata.IsMagic){cost = 1;}
                         if (cc.CheckCost(cost))
                         {
                             handler.function = transform.parent.parent.GetComponent<Drag_Drop>();

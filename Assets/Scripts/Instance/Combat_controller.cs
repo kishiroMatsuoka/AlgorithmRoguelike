@@ -16,8 +16,8 @@ public class Combat_controller : MonoBehaviour
     [SerializeField] TextMeshProUGUI turn_text, CostCounter, Cost_maxtxt,extraCost;
     Player_Controller pc;
     public bool Dragging = false;
+    bool EnemySpawned, EnemyDead;
     public int combat_score,c_dmg,totaldmg;
-    bool StopCombat = false;
     void OnEnable()
     {
         //Combat Variables Settings//
@@ -27,8 +27,21 @@ public class Combat_controller : MonoBehaviour
         Current_cost = 0;e_cost = 0;turn_counter = 1;
         Cost_maxtxt.text = "Max:" + pc._maxcost;turn_text.text = "1";
         //Enemy Spawning//
+        EnemySpawned = false;
+        EnemyDead = false;
         FillInventory();
         SpawnEnemies();
+    }
+    private void Update()
+    {
+        if (EnemySpawned && !EnemyDead)
+        {
+            if (n_enemy.FindAll(x => x.IsDead == false).Count == 0)
+            {
+                EnemyDead = true;
+                CheckDead();
+            }
+        }
     }
     public void DmgScore(int dmg)
     {
@@ -39,35 +52,26 @@ public class Combat_controller : MonoBehaviour
     public void AdvanceTurn(){
         if (ActionsInBoard.Count > 0)
         {
-            //Update turn counter
-            turn_counter++;
-            combat_score -= 50;
-            turn_text.text = turn_counter.ToString();
-            //play board
-            foreach (Actions action in ActionsInBoard)
-            {
-                CodeToExecute(action);
-            }
+            StartCoroutine(PlayBoard());
             CheckDead();
             if (!CombatResultScreen.activeSelf)
             {
                 //enemy turn
-                foreach (Enemy x in n_enemy)
-                {
-                    if (!x.IsDead)
-                    {
-                        print("Enemigo Elige Skill");
-                        x.UseSkill(pc);
-                    }
-                }
+                StartCoroutine(EnemyTurn());
             }
+            UpdateCostMod();
+            //returns functions to inventory
+            Board.GetComponent<Attach_Zone>().TurnFinished();
+            //Update turn counter
+            turn_counter++;
+            combat_score -= 50;
+            turn_text.text = turn_counter.ToString();
+            //Turn Related Effects
+            //
             //remove buffs
             e_dmg = 0;
             e_def = 0;
             e_cost = 0;
-            UpdateCostMod();
-            //returns functions to inventory
-            Board.GetComponent<Attach_Zone>().TurnFinished();
         }
     }
     public bool CheckCost(int card_cost)
@@ -110,12 +114,9 @@ public class Combat_controller : MonoBehaviour
         //for(int i = objects.Count - 1; i >= 0; i--){Destroy(objects[i]);}
         for (int i = 0; i < objects.Count; i++) { Destroy(objects[i]); }
         objects.Clear();
+        Debug.Log("enemigos vivos ="+n_enemy.Count);
         if (n_enemy.Count == 0)
         {
-            if (FindObjectOfType<SceneControl>().CurrentNode.N_Type == Map.NodeType.Boss)
-            {
-                FindObjectOfType<SceneControl>().BossDead = true;
-            }
             CombatResultScreen.SetActive(true);
         }
     }
@@ -135,25 +136,26 @@ public class Combat_controller : MonoBehaviour
                     TargetType targets = fun.TargetType;
                     if (targets == TargetType.SingleTarget)
                     {
+                        var t = n_enemy.FindAll(x => !x.IsDead)[0];
                         if (fun.multihit)
                         {
-                            for (int i = 0; i < fun.hits; i++){n_enemy[0].ChangeHp(dmg, fun.magic);}
-                            if (n_enemy[0].IsDead){n_enemy.Remove(n_enemy[0]);}
+                            for (int i = 0; i < fun.hits; i++){t.ChangeHp(dmg, fun.magic);}
+                            //if (n_enemy[0].IsDead){n_enemy.Remove(n_enemy[0]);}
                         }
                         else
                         {
-                            n_enemy[0].ChangeHp(dmg, fun.magic);
-                            CheckDead();
+                            t.ChangeHp(dmg, fun.magic);
+                            //n_enemy[0].ChangeHp(dmg, fun.magic);
+                            //CheckDead();
                         }
                     }
                     else//AOE
                     {
-                        foreach (Enemy t in n_enemy)
+                        foreach (Enemy t in n_enemy.FindAll(x=>!x.IsDead))
                         {
                             if (fun.multihit){for (int x = 0; x < fun.hits; x++){t.ChangeHp(dmg, fun.magic);}}
                             else{t.ChangeHp(dmg, fun.magic);}
                         }
-                        CheckDead();
                     }
                     break;
                 case EffectType.Healing:
@@ -161,12 +163,13 @@ public class Combat_controller : MonoBehaviour
                     break;
                 case EffectType.Debuf:
                     if (target == TargetType.SingleTarget){
-                        if (fun.StatMod == Function.TargetStat.Dmg){n_enemy[0].AttackEffect(var.Dmg, false);}
-                        else{n_enemy[0].DefEffect(var.Dmg, false);}
+                        var t = n_enemy.FindAll(x => !x.IsDead)[0];
+                        if (fun.StatMod == Function.TargetStat.Dmg){t.AttackEffect(var.Dmg, false);}
+                        else{t.DefEffect(var.Dmg, false);}
                     }
                     else
                     {
-                        foreach (Enemy t in n_enemy)
+                        foreach (Enemy t in n_enemy.FindAll(x => !x.IsDead))
                         {
                             if (fun.StatMod == Function.TargetStat.Dmg){t.AttackEffect(var.Dmg, false);}
                             else{t.DefEffect(var.Dmg, false);}
@@ -202,13 +205,14 @@ public class Combat_controller : MonoBehaviour
                 case EffectType.Damage:
                     if (con_t == TargetType.SingleTarget)
                     {
+                        var t = n_enemy.FindAll(x => !x.IsDead)[0];
                         if (con.Multihit){for (int i = 0; i < con.Hits; i++){n_enemy[0].ChangeHp(con.cons_value, con.Magic);}}
                         else{n_enemy[0].ChangeHp(con.cons_value, con.Magic);}
-                        CheckDead();
+                        //CheckDead();
                     }
                     else//AOE
                     {
-                        foreach (Enemy t in n_enemy)
+                        foreach (Enemy t in n_enemy.FindAll(x => !x.IsDead))
                         {
                             if (con.Multihit)
                             {
@@ -216,7 +220,7 @@ public class Combat_controller : MonoBehaviour
                             }
                             else{t.ChangeHp(con.cons_value, con.Magic);}
                         }
-                        CheckDead();
+                        //CheckDead();
                     }
                     break;
                 case EffectType.Healing:
@@ -355,8 +359,29 @@ public class Combat_controller : MonoBehaviour
             temp.transform.localPosition = new Vector3(count * 1.5f, 0f, 0f);
             count++;
         }
+        EnemySpawned = true;
     }
-
+    IEnumerator EnemyTurn()
+    {
+        foreach (Enemy x in n_enemy)
+        {
+            if (!x.IsDead)
+            {
+                print("Enemigo Elige Skill");
+                x.UseSkill(pc);
+                Debug.Log(Time.deltaTime);
+                yield return new WaitForSeconds(0.8f);
+            }
+        }
+    }
+    IEnumerator PlayBoard()
+    {
+        foreach (Actions action in ActionsInBoard.ToArray())
+        {
+            CodeToExecute(action);
+            yield return new WaitForSeconds(0.8f);
+        }
+    }
     private string URL =
     "https://docs.google.com/forms/u/0/d/e/1FAIpQLSffsKRmzTO-xS7cfq9dw66gCHljU-0mgWbbEQjMofKPAoK4_g/formResponse";
     public IEnumerator MarkCombatEnd()

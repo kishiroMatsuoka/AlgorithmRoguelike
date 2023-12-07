@@ -15,7 +15,10 @@ public class LootPreview : MonoBehaviour
     public void SetName(ItemSystem.Items item)
     {
         itemdata = item;
-        iSprite.GetComponent<UnityEngine.UI.Image>().sprite = itemdata.ItemSprite;
+        if(itemdata.ItemSprite != null)
+        {
+            iSprite.GetComponent<UnityEngine.UI.Image>().sprite = itemdata.ItemSprite;
+        }
         itemname.GetComponent<TextMeshProUGUI>().text = itemdata.ItemName;
         //iSprite.GetComponent<UnityEngine.UI.Image>().sprite = itemdata.ItemSprite;
 

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: lvl1config
   m_EditorClassIdentifier: 
   nodes: []
-  Map_Level: 1
-  Map_Layers: 3
+  Map_MaxLevel: 0
+  Map_Layers: 5
   Map_Bosses: 1
   Map_Elites: 3
   Map_Complexity: 3

@@ -24,6 +24,14 @@ public class Enemy : MonoBehaviour
         ScaleStats();
         maxhp = _enemyhp;
     }
+    private void Update()
+    {
+        if(_enemyhp <= 0) { IsDead = true; }
+    }
+    public Sprite GetEnemySprite()
+    {
+        return enemydata.Enemy_Sprite;
+    }
     void ScaleStats()
     {
         float scale = _enemylvl * 0.1f;
@@ -71,9 +79,15 @@ public class Enemy : MonoBehaviour
             _enemyhp -= (effect-(_enemydef+def_effect));
         }
         //check if dead
+        Debug.Log("Enemy hp =" + _enemyhp);
         if(_enemyhp <= 0)
         {
             IsDead = true;
+            Debug.Log("Enemy dead? =" + IsDead);
+            if (enemydata.Enemy_Class == EnemyClass.Boss)
+            {
+                FindObjectOfType<SceneControl>().BossDead = true;
+            }
         }
     }
     void Heal(int value)

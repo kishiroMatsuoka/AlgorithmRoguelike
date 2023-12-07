@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Berserker 2
   m_EditorClassIdentifier: 
   Enemy_Name: Basic Berserker
+  Enemy_Sprite: {fileID: -643527469, guid: 0a3539cec630cd14f812a6a7f98dabea, type: 3}
   Enemy_Skills:
   - Name: Basic Attack
     skill_multiplier: 100

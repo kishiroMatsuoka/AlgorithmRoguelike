@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d019e6a370311b49b6e89a7a4af3ff0, type: 3}
   m_Name: Angry Alien
   m_EditorClassIdentifier: 
-  Enemy_Name: Basic Berserker
+  Enemy_Name: Angry Alien
+  Enemy_Sprite: {fileID: -974195506, guid: 0a3539cec630cd14f812a6a7f98dabea, type: 3}
   Enemy_Skills:
   - Name: Defense Up
     skill_multiplier: 15
