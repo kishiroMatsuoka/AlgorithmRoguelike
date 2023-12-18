@@ -16,7 +16,6 @@ public class Combat_controller : MonoBehaviour
     [SerializeField] TextMeshProUGUI turn_text, CostCounter, Cost_maxtxt,extraCost;
     Player_Controller pc;
     public bool Dragging = false;
-    bool EnemySpawned, EnemyDead;
     public int combat_score,c_dmg,totaldmg;
     void OnEnable()
     {
@@ -27,21 +26,12 @@ public class Combat_controller : MonoBehaviour
         Current_cost = 0;e_cost = 0;turn_counter = 1;
         Cost_maxtxt.text = "Max:" + pc._maxcost;turn_text.text = "1";
         //Enemy Spawning//
-        EnemySpawned = false;
-        EnemyDead = false;
         FillInventory();
         SpawnEnemies();
     }
     private void Update()
     {
-        if (EnemySpawned && !EnemyDead)
-        {
-            if (n_enemy.FindAll(x => x.IsDead == false).Count == 0)
-            {
-                EnemyDead = true;
-                CheckDead();
-            }
-        }
+
     }
     public void DmgScore(int dmg)
     {
@@ -53,25 +43,6 @@ public class Combat_controller : MonoBehaviour
         if (ActionsInBoard.Count > 0)
         {
             StartCoroutine(PlayBoard());
-            CheckDead();
-            if (!CombatResultScreen.activeSelf)
-            {
-                //enemy turn
-                StartCoroutine(EnemyTurn());
-            }
-            UpdateCostMod();
-            //returns functions to inventory
-            Board.GetComponent<Attach_Zone>().TurnFinished();
-            //Update turn counter
-            turn_counter++;
-            combat_score -= 50;
-            turn_text.text = turn_counter.ToString();
-            //Turn Related Effects
-            //
-            //remove buffs
-            e_dmg = 0;
-            e_def = 0;
-            e_cost = 0;
         }
     }
     public bool CheckCost(int card_cost)
@@ -81,10 +52,11 @@ public class Combat_controller : MonoBehaviour
         {
             Current_cost = temp;
             CostCounter.text = "Cost:"+Current_cost;
-            print("Opcion posible: result" + temp);
+            //print("Opcion posible: result" + temp);
             return true;
         }
-        else{print("Opcion no posible: result" + temp);return false;}
+        else{//print("Opcion no posible: result" + temp);
+            return false;}
     }
     void UpdateCostMod()
     {
@@ -105,16 +77,12 @@ public class Combat_controller : MonoBehaviour
     }
     void CheckDead()
     {
-        List<GameObject> objects = new List<GameObject>();
-        foreach(Enemy en in n_enemy.FindAll(x => x.IsDead == true))
-        {
-            objects.Add(en.gameObject);
-        }
+        var temp = n_enemy.FindAll(x => x.IsDead == true).ToArray();
         n_enemy.RemoveAll(x => x.IsDead == true);
-        //for(int i = objects.Count - 1; i >= 0; i--){Destroy(objects[i]);}
-        for (int i = 0; i < objects.Count; i++) { Destroy(objects[i]); }
-        objects.Clear();
-        Debug.Log("enemigos vivos ="+n_enemy.Count);
+        for (int i = 0; i < temp.Length; i++)
+        {
+            temp[i].DeleteEnabled = true;
+        }
         if (n_enemy.Count == 0)
         {
             CombatResultScreen.SetActive(true);
@@ -359,7 +327,6 @@ public class Combat_controller : MonoBehaviour
             temp.transform.localPosition = new Vector3(count * 1.5f, 0f, 0f);
             count++;
         }
-        EnemySpawned = true;
     }
     IEnumerator EnemyTurn()
     {
@@ -369,17 +336,36 @@ public class Combat_controller : MonoBehaviour
             {
                 print("Enemigo Elige Skill");
                 x.UseSkill(pc);
-                Debug.Log(Time.deltaTime);
+                Debug.Log("Time delay" + Time.deltaTime);
                 yield return new WaitForSeconds(0.8f);
             }
         }
+        UpdateCostMod();
+        //returns functions to inventory
+        Board.GetComponent<Attach_Zone>().TurnFinished();
+        //Update turn counter
+        turn_counter++;
+        combat_score -= 50;
+        turn_text.text = turn_counter.ToString();
+        e_dmg = 0;
+        e_def = 0;
+        e_cost = 0;
     }
     IEnumerator PlayBoard()
     {
-        foreach (Actions action in ActionsInBoard.ToArray())
+        var temp = ActionsInBoard.ToArray();
+        foreach (Actions action in temp)
         {
+            print("El jugador hace accion");
             CodeToExecute(action);
+            Debug.Log("Time delay"+Time.deltaTime);
             yield return new WaitForSeconds(0.8f);
+        }
+        print("Corroutine ended > Player");
+        CheckDead();
+        if (!CombatResultScreen.activeSelf)
+        {
+            StartCoroutine(EnemyTurn());
         }
     }
     private string URL =

@@ -65,7 +65,7 @@ public class Map_Generation : MonoBehaviour
             Node node = GenerateNode(layer);
             number_of_nodes++;
             int temp = Random.Range(1, configuration.Map_Complexity);//lvl 1 - 1min, max3 | exclusive 3 -> 1,2
-            Debug.Log("Complexity= " + temp);
+            //Debug.Log("Complexity= " + temp);
             if(layer == 0){temp = configuration.Map_Complexity; 
                 node.name = System.Convert.ToChar(65).ToString();
                 node.NodeId = 0;
@@ -121,7 +121,7 @@ public class Map_Generation : MonoBehaviour
         {
             int nodesinlayer = nodes.FindAll(x => x.Layer == i).Count;
             float middle = ((nodesinlayer - 1)*-axisX)/2;
-            print(middle);
+            //print(middle);
             foreach(Node n in nodes.FindAll(x => x.Layer == i))
             {
                 Vector3 refpos = new Vector3(middle, axisY * i, 0f);

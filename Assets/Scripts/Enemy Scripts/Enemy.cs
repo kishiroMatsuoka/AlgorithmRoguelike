@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     //local calculations
     Combat_controller cc;
     int maxhp, dmg_effect = 0, def_effect = 0, BossBonusDmg = 0;
-    public bool IsDead = false;
+    public bool IsDead = false, DeleteEnabled =false;
     Skills last_used = null;
     void Start()
     {
@@ -27,6 +27,10 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         if(_enemyhp <= 0) { IsDead = true; }
+        if (DeleteEnabled)
+        {
+            Destroy(gameObject);
+        }
     }
     public Sprite GetEnemySprite()
     {
